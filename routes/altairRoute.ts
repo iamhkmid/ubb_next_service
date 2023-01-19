@@ -11,12 +11,12 @@ const checkEnv: TCheckEnv = (req, res, next) => {
     : res.end("Development only");
 }
 
-altairRoute.use("/", () => {
+altairRoute.use("/",
   altairExpress({
     endpointURL: "/graphql",
     subscriptionsEndpoint: `ws://localhost:3001/subscriptions`,
     initialQuery: ``,
   })
-});
+);
 
 export default altairRoute;
