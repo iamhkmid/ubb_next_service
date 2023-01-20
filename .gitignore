@@ -32,5 +32,4 @@ yarn-error.log*
 
 # vercel
 .vercel
-yarn.lock
 dist
