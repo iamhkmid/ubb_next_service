@@ -14,6 +14,10 @@
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
   },
+  "engines": {
+    "npm": "please-use-yarn",
+    "yarn": ">= 1.19.1"
+  },
   "dependencies": {
     "@apollo/server": "^4.3.0",
     "@graphql-tools/load-files": "^6.6.1",
