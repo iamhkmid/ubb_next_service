@@ -6,7 +6,6 @@
   "scripts": {
     "dev": "cross-env NODE_OPTIONS='--openssl-legacy-provider' NODE_ENV=development nodemon",
     "build": "tsc --project tsconfig.json",
-    "start": "cross-env NODE_ENV=production node dist",
     "test": "echo \"Error: no test specified\" && exit 1",
     "codegen": "graphql-codegen --config codegen.ts"
   },
