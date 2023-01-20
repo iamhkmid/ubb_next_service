@@ -1,7 +1,8 @@
 import express from "express";
 import cors from "cors";
 import * as http from "http";
-import altairRoute from "./routes/altairRoute";
+import altairRoute from "./src/routes/altairRoute";
+import graphqlServer from "./src/graphql"
 
 
 const PORT = parseInt(process.env.PORT || "3001");
@@ -25,7 +26,7 @@ const main = async () => {
   app.use("/altair", altairRoute);
 
   const httpServer = http.createServer(app);
-  // await graphql({ app, httpServer });
+  graphqlServer({ app, httpServer });
   httpServer.listen(PORT, (err?: any) => {
     if (err) throw err;
     console.log(`⚡️Server is listening on port ${PORT}`);

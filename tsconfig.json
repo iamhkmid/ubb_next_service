@@ -9,7 +9,8 @@
     "module": "commonjs",
     "target": "es2017",
     "lib": ["es2017"],
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "noImplicitAny": true
   },
   "include": ["./**/*.ts"],
   "exclude": ["./dist", "node_modules"]

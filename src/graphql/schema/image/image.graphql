@@ -1,0 +1,8 @@
+type Image {
+  id: String
+  publicId: String
+  url: String
+  secureUrl: String
+  createdAt: Date
+  updatedAt: Date
+}
