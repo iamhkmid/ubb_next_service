@@ -6,5 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const path_1 = __importDefault(require("path"));
 const load_files_1 = require("@graphql-tools/load-files");
 const merge_1 = require("@graphql-tools/merge");
-const typesArray = (0, load_files_1.loadFilesSync)(path_1.default.join(__dirname, './**/*.graphql'), { recursive: true });
+const typesArray = (0, load_files_1.loadFilesSync)(path_1.default.join(process.cwd(), 'src/graphql/schema/**/*.graphql'), { recursive: true });
+console.log({ __dirname });
+console.log({ typesArray });
 exports.default = (0, merge_1.mergeTypeDefs)(typesArray);
