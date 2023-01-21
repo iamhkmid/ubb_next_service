@@ -10,6 +10,7 @@ import schema from "./schema";
 const graphqlServer: TGraphqlServer = async ({ app, httpServer }) => {
   const server = new ApolloServer<TGraphqlCtx>({
     schema,
+    introspection: true,
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
   });
   await server.start();
