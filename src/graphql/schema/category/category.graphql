@@ -1,6 +1,0 @@
-type Category {
-  id: String
-  name: String
-  createdAt: Date
-  updatedAt: Date
-}

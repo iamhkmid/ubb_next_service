@@ -1,5 +1,6 @@
 type Query {
   books: [Book]
+  book(bookId: ID!): Book
 }
 
 type Book {
@@ -11,11 +12,28 @@ type Book {
   stock: Int
   publisher: String
   description: String
-  Image: Image
-  Categories: [Category]
+  Images: [BookImage]
+  Categories: [BookCategory]
   printType: String
   isbn: String
   slug: String
+  createdAt: Date
+  updatedAt: Date
+}
+
+type BookCategory {
+  id: String
+  nameId: String
+  nameEn: String
+  createdAt: Date
+  updatedAt: Date
+}
+
+type BookImage {
+  id: String
+  publicId: String
+  url: String
+  secureUrl: String
   createdAt: Date
   updatedAt: Date
 }

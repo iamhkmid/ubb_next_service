@@ -1,10 +1,11 @@
 import { PrismaClient } from "@prisma/client";
+import express from "express";
 
 export type TGraphqlParamsCtx = { req: express.Request; res: express.Response; };
 
 export type TGraphqlCtx = {
-  req: Express.Request;
-  res: Express.Response;
+  req: express.Request;
+  res: express.Response;
   db: PrismaClient<Prisma.PrismaClientOptions, never, Prisma.RejectOnNotFound | Prisma.RejectPerOperation | undefined>;
 };
 

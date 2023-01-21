@@ -5,6 +5,7 @@ export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -17,8 +18,8 @@ export type Scalars = {
 
 export type Book = {
   __typename?: 'Book';
-  Categories?: Maybe<Array<Maybe<Category>>>;
-  Image?: Maybe<Image>;
+  Categories?: Maybe<Array<Maybe<BookCategory>>>;
+  Images?: Maybe<Array<Maybe<BookImage>>>;
   authorName?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['Date']>;
   description?: Maybe<Scalars['String']>;
@@ -34,16 +35,16 @@ export type Book = {
   updatedAt?: Maybe<Scalars['Date']>;
 };
 
-export type Category = {
-  __typename?: 'Category';
+export type BookCategory = {
+  __typename?: 'BookCategory';
   createdAt?: Maybe<Scalars['Date']>;
   id?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['Date']>;
 };
 
-export type Image = {
-  __typename?: 'Image';
+export type BookImage = {
+  __typename?: 'BookImage';
   createdAt?: Maybe<Scalars['Date']>;
   id?: Maybe<Scalars['String']>;
   publicId?: Maybe<Scalars['String']>;
@@ -52,9 +53,44 @@ export type Image = {
   url?: Maybe<Scalars['String']>;
 };
 
+export type Mutation = {
+  __typename?: 'Mutation';
+  login?: Maybe<LoginData>;
+};
+
+
+export type MutationLoginArgs = {
+  password: Scalars['String'];
+  username: Scalars['String'];
+};
+
 export type Query = {
   __typename?: 'Query';
+  book?: Maybe<Book>;
   books?: Maybe<Array<Maybe<Book>>>;
+};
+
+
+export type QueryBookArgs = {
+  bookId: Scalars['ID'];
+};
+
+export enum AuthRole {
+  Admin = 'ADMIN',
+  User = 'USER'
+}
+
+export type LoginData = {
+  __typename?: 'loginData';
+  message?: Maybe<Scalars['String']>;
+  user?: Maybe<LoginUserData>;
+};
+
+export type LoginUserData = {
+  __typename?: 'loginUserData';
+  fullName?: Maybe<Scalars['String']>;
+  role?: Maybe<Scalars['String']>;
+  username?: Maybe<Scalars['String']>;
 };
 
 
@@ -127,30 +163,45 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Book: ResolverTypeWrapper<Book>;
+  BookCategory: ResolverTypeWrapper<BookCategory>;
+  BookImage: ResolverTypeWrapper<BookImage>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
-  Category: ResolverTypeWrapper<Category>;
   Date: ResolverTypeWrapper<Scalars['Date']>;
-  Image: ResolverTypeWrapper<Image>;
+  ID: ResolverTypeWrapper<Scalars['ID']>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
+  Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']>;
+  authRole: AuthRole;
+  loginData: ResolverTypeWrapper<LoginData>;
+  loginUserData: ResolverTypeWrapper<LoginUserData>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Book: Book;
+  BookCategory: BookCategory;
+  BookImage: BookImage;
   Boolean: Scalars['Boolean'];
-  Category: Category;
   Date: Scalars['Date'];
-  Image: Image;
+  ID: Scalars['ID'];
   Int: Scalars['Int'];
+  Mutation: {};
   Query: {};
   String: Scalars['String'];
+  loginData: LoginData;
+  loginUserData: LoginUserData;
 };
 
+export type AuthDirectiveArgs = {
+  requires: AuthRole;
+};
+
+export type AuthDirectiveResolver<Result, Parent, ContextType = TGraphqlCtx, Args = AuthDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+
 export type BookResolvers<ContextType = TGraphqlCtx, ParentType extends ResolversParentTypes['Book'] = ResolversParentTypes['Book']> = {
-  Categories?: Resolver<Maybe<Array<Maybe<ResolversTypes['Category']>>>, ParentType, ContextType>;
-  Image?: Resolver<Maybe<ResolversTypes['Image']>, ParentType, ContextType>;
+  Categories?: Resolver<Maybe<Array<Maybe<ResolversTypes['BookCategory']>>>, ParentType, ContextType>;
+  Images?: Resolver<Maybe<Array<Maybe<ResolversTypes['BookImage']>>>, ParentType, ContextType>;
   authorName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -167,7 +218,7 @@ export type BookResolvers<ContextType = TGraphqlCtx, ParentType extends Resolver
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CategoryResolvers<ContextType = TGraphqlCtx, ParentType extends ResolversParentTypes['Category'] = ResolversParentTypes['Category']> = {
+export type BookCategoryResolvers<ContextType = TGraphqlCtx, ParentType extends ResolversParentTypes['BookCategory'] = ResolversParentTypes['BookCategory']> = {
   createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -175,11 +226,7 @@ export type CategoryResolvers<ContextType = TGraphqlCtx, ParentType extends Reso
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
-  name: 'Date';
-}
-
-export type ImageResolvers<ContextType = TGraphqlCtx, ParentType extends ResolversParentTypes['Image'] = ResolversParentTypes['Image']> = {
+export type BookImageResolvers<ContextType = TGraphqlCtx, ParentType extends ResolversParentTypes['BookImage'] = ResolversParentTypes['BookImage']> = {
   createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   publicId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -189,15 +236,43 @@ export type ImageResolvers<ContextType = TGraphqlCtx, ParentType extends Resolve
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
+  name: 'Date';
+}
+
+export type MutationResolvers<ContextType = TGraphqlCtx, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  login?: Resolver<Maybe<ResolversTypes['loginData']>, ParentType, ContextType, RequireFields<MutationLoginArgs, 'password' | 'username'>>;
+};
+
 export type QueryResolvers<ContextType = TGraphqlCtx, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  book?: Resolver<Maybe<ResolversTypes['Book']>, ParentType, ContextType, RequireFields<QueryBookArgs, 'bookId'>>;
   books?: Resolver<Maybe<Array<Maybe<ResolversTypes['Book']>>>, ParentType, ContextType>;
+};
+
+export type LoginDataResolvers<ContextType = TGraphqlCtx, ParentType extends ResolversParentTypes['loginData'] = ResolversParentTypes['loginData']> = {
+  message?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  user?: Resolver<Maybe<ResolversTypes['loginUserData']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type LoginUserDataResolvers<ContextType = TGraphqlCtx, ParentType extends ResolversParentTypes['loginUserData'] = ResolversParentTypes['loginUserData']> = {
+  fullName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  role?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  username?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type Resolvers<ContextType = TGraphqlCtx> = {
   Book?: BookResolvers<ContextType>;
-  Category?: CategoryResolvers<ContextType>;
+  BookCategory?: BookCategoryResolvers<ContextType>;
+  BookImage?: BookImageResolvers<ContextType>;
   Date?: GraphQLScalarType;
-  Image?: ImageResolvers<ContextType>;
+  Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  loginData?: LoginDataResolvers<ContextType>;
+  loginUserData?: LoginUserDataResolvers<ContextType>;
 };
 
+export type DirectiveResolvers<ContextType = TGraphqlCtx> = {
+  auth?: AuthDirectiveResolver<any, any, ContextType>;
+};
