@@ -2,10 +2,7 @@ import { BookResolvers, MutationResolvers, QueryResolvers } from "../../../types
 
 export const Query: QueryResolvers = {
   books: async (_, __, { db }) => await db.book.findMany(),
-  book: async (_, { bookId }, { db }) => {
-    console.log("aaa")
-    return await db.book.findUnique({ where: { id: bookId } })
-  }
+  book: async (_, { bookId }, { db }) => await db.book.findUnique({ where: { id: bookId } })
 };
 
 export const Mutation: MutationResolvers = {
