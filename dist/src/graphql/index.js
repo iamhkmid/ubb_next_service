@@ -6,15 +6,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const server_1 = require("@apollo/server");
 const context_1 = __importDefault(require("./context"));
 const drainHttpServer_1 = require("@apollo/server/plugin/drainHttpServer");
-const typeDefs_1 = __importDefault(require("./schema/typeDefs"));
 const cors_1 = __importDefault(require("cors"));
 const body_parser_1 = require("body-parser");
 const express4_1 = require("@apollo/server/express4");
-const resolvers_1 = __importDefault(require("./schema/resolvers"));
+const schema_1 = __importDefault(require("./schema"));
 const graphqlServer = async ({ app, httpServer }) => {
     const server = new server_1.ApolloServer({
-        typeDefs: typeDefs_1.default,
-        resolvers: resolvers_1.default,
+        schema: schema_1.default,
         plugins: [(0, drainHttpServer_1.ApolloServerPluginDrainHttpServer)({ httpServer })],
     });
     await server.start();

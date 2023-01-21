@@ -8,11 +8,13 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const prisma = new client_1.PrismaClient();
 async function main() {
     const salt = await bcrypt_1.default.genSalt();
-    let password1 = await bcrypt_1.default.hash("Dapurkata2022!", salt);
+    let password1 = await bcrypt_1.default.hash("ubbpress2023", salt);
     const userData = [
         {
-            name: "dapurkata",
-            username: "dapurkata",
+            fullName: "UBB Press",
+            role: "ADMIN",
+            isActive: true,
+            username: "ubb_press",
             password: password1
         },
     ];
@@ -35,12 +37,15 @@ async function main() {
                 numberOfPages: 529,
                 isbn: "Masih dalam proses",
                 slug: "laskar-pelangi",
-                Image: {
-                    create: {
-                        publicId: "books/Laskar_pelangi_sampul_gw0fk6",
-                        url: "http://res.cloudinary.com/diw72nenn/image/upload/v1674189287/ubb_press/books/Laskar_pelangi_sampul_gw0fk6.jpg",
-                        secureUrl: "https://res.cloudinary.com/diw72nenn/image/upload/v1674189287/ubb_press/books/Laskar_pelangi_sampul_gw0fk6.jpg"
-                    }
+                Images: {
+                    create: [
+                        {
+                            publicId: "books/Laskar_pelangi_sampul_gw0fk6",
+                            type: "COVER",
+                            url: "http://res.cloudinary.com/diw72nenn/image/upload/v1674189287/ubb_press/books/Laskar_pelangi_sampul_gw0fk6.jpg",
+                            secureUrl: "https://res.cloudinary.com/diw72nenn/image/upload/v1674189287/ubb_press/books/Laskar_pelangi_sampul_gw0fk6.jpg"
+                        }
+                    ]
                 },
                 Categories: { connect: categoriesIDs }
             },
@@ -55,12 +60,15 @@ async function main() {
                 numberOfPages: 292,
                 isbn: "Masih dalam proses",
                 slug: "sang-pemimpi",
-                Image: {
-                    create: {
-                        publicId: "ubb_press/books/Sang_Pemimpi_sampul_luff13",
-                        url: "http://res.cloudinary.com/diw72nenn/image/upload/v1674189287/ubb_press/books/Sang_Pemimpi_sampul_luff13.jpg",
-                        secureUrl: 'https://res.cloudinary.com/diw72nenn/image/upload/v1674189287/ubb_press/books/Sang_Pemimpi_sampul_luff13.jpg'
-                    }
+                Images: {
+                    create: [
+                        {
+                            publicId: "ubb_press/books/Sang_Pemimpi_sampul_luff13",
+                            type: "COVER",
+                            url: "http://res.cloudinary.com/diw72nenn/image/upload/v1674189287/ubb_press/books/Sang_Pemimpi_sampul_luff13.jpg",
+                            secureUrl: 'https://res.cloudinary.com/diw72nenn/image/upload/v1674189287/ubb_press/books/Sang_Pemimpi_sampul_luff13.jpg'
+                        }
+                    ]
                 },
                 Categories: { connect: categoriesIDs }
             },

@@ -36,14 +36,13 @@ const PORT = parseInt(process.env.PORT || "3001");
 exports.corsOptions = { credentials: true, origin: "*" };
 const main = async () => {
     const app = (0, express_1.default)();
-    if (process.env.NODE_ENV === "production") {
-        app.use((req, res, next) => {
-            if (req.header("x-forwarded-proto") !== "https")
-                res.redirect(`https://${req.header("host")}${req.url}`);
-            else
-                next();
-        });
-    }
+    // if (process.env.NODE_ENV === "production") {
+    //   app.use((req, res, next) => {
+    //     if (req.header("x-forwarded-proto") !== "https")
+    //       res.redirect(`https://${req.header("host")}${req.url}`);
+    //     else next();
+    //   });
+    // }
     app.use(express_1.default.json());
     app.use((0, cors_1.default)(exports.corsOptions));
     app.use(express_1.default.urlencoded({ extended: true }));

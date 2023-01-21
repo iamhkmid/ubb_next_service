@@ -8,7 +8,8 @@ import { mergeTypeDefs } from '@graphql-tools/merge';
 const typesArray = loadFilesSync(path.join(process.cwd(), 'src/graphql/schema/**/*.graphql'), { recursive: true })
 const typeDefs = mergeTypeDefs(typesArray)
 
-const resolverArray = loadFilesSync(path.join(__dirname, './**/*.resolvers.ts'), { recursive: true })
+const isDev = process.env.NODE_ENV === "development"
+const resolverArray = loadFilesSync(path.join(__dirname, `./**/*.resolvers.${isDev ? "ts" : "js"}`), { recursive: true })
 const resolvers = _.merge(resolverArray);
 
 let schema = makeExecutableSchema({ typeDefs, resolvers });

@@ -39,7 +39,8 @@ export type BookCategory = {
   __typename?: 'BookCategory';
   createdAt?: Maybe<Scalars['Date']>;
   id?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
+  nameEn?: Maybe<Scalars['String']>;
+  nameId?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['Date']>;
 };
 
@@ -221,7 +222,8 @@ export type BookResolvers<ContextType = TGraphqlCtx, ParentType extends Resolver
 export type BookCategoryResolvers<ContextType = TGraphqlCtx, ParentType extends ResolversParentTypes['BookCategory'] = ResolversParentTypes['BookCategory']> = {
   createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  nameEn?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  nameId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
