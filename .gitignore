@@ -34,4 +34,5 @@ yarn-error.log*
 .vercel
 yarn.lock
 dist
-package.lock.json
+src
+index.ts
