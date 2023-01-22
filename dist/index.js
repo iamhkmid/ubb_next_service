@@ -34,6 +34,7 @@ const altairRoute_1 = __importDefault(require("./src/routes/altairRoute"));
 const graphql_1 = __importDefault(require("./src/graphql"));
 const PORT = parseInt(process.env.PORT || "3001");
 exports.corsOptions = { credentials: true, origin: "*" };
+const gqlUploadOptions = { maxFileSize: 10000000, maxFiles: 3 };
 const main = async () => {
     const app = (0, express_1.default)();
     // if (process.env.NODE_ENV === "production") {

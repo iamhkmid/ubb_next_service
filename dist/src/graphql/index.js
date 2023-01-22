@@ -13,6 +13,7 @@ const schema_1 = __importDefault(require("./schema"));
 const graphqlServer = async ({ app, httpServer }) => {
     const server = new server_1.ApolloServer({
         schema: schema_1.default,
+        introspection: true,
         plugins: [(0, drainHttpServer_1.ApolloServerPluginDrainHttpServer)({ httpServer })],
     });
     await server.start();

@@ -4,7 +4,7 @@ type Query {
 }
 
 type Mutation {
-  addBook(data: addBookInput!, cover: Upload, images: [imagesInput]): Book
+  addBook(data: addBookInput!): Book
   deleteBook(bookId: ID!): Book @auth(requires: ADMIN)
 }
 
@@ -18,11 +18,6 @@ input addBookInput {
   printType: String!
   numberOfPages: Int!
   isbn: String!
-}
-
-input imagesInput {
-  data: Upload!
-  type: String!
 }
 
 type Book {
