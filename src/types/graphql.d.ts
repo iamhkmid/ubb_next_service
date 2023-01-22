@@ -14,6 +14,7 @@ export type Scalars = {
   Int: number;
   Float: number;
   Date: any;
+  Upload: any;
 };
 
 export type Book = {
@@ -56,7 +57,21 @@ export type BookImage = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  addBook?: Maybe<Book>;
+  deleteBook?: Maybe<Book>;
   login?: Maybe<LoginData>;
+};
+
+
+export type MutationAddBookArgs = {
+  cover: Scalars['Upload'];
+  data: AddBookInput;
+  images?: InputMaybe<Array<InputMaybe<ImagesInput>>>;
+};
+
+
+export type MutationDeleteBookArgs = {
+  bookId: Scalars['ID'];
 };
 
 
@@ -76,10 +91,27 @@ export type QueryBookArgs = {
   bookId: Scalars['ID'];
 };
 
+export type AddBookInput = {
+  authorName: Scalars['String'];
+  description: Scalars['String'];
+  isbn: Scalars['String'];
+  numberOfPages: Scalars['Int'];
+  price: Scalars['Int'];
+  printType: Scalars['String'];
+  publisher: Scalars['String'];
+  stock: Scalars['Int'];
+  title: Scalars['String'];
+};
+
 export enum AuthRole {
   Admin = 'ADMIN',
   User = 'USER'
 }
+
+export type ImagesInput = {
+  data: Scalars['Upload'];
+  type: Scalars['String'];
+};
 
 export type LoginData = {
   __typename?: 'loginData';
@@ -173,7 +205,10 @@ export type ResolversTypes = {
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']>;
+  Upload: ResolverTypeWrapper<Scalars['Upload']>;
+  addBookInput: AddBookInput;
   authRole: AuthRole;
+  imagesInput: ImagesInput;
   loginData: ResolverTypeWrapper<LoginData>;
   loginUserData: ResolverTypeWrapper<LoginUserData>;
 };
@@ -190,6 +225,9 @@ export type ResolversParentTypes = {
   Mutation: {};
   Query: {};
   String: Scalars['String'];
+  Upload: Scalars['Upload'];
+  addBookInput: AddBookInput;
+  imagesInput: ImagesInput;
   loginData: LoginData;
   loginUserData: LoginUserData;
 };
@@ -243,6 +281,8 @@ export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 }
 
 export type MutationResolvers<ContextType = TGraphqlCtx, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  addBook?: Resolver<Maybe<ResolversTypes['Book']>, ParentType, ContextType, RequireFields<MutationAddBookArgs, 'cover' | 'data'>>;
+  deleteBook?: Resolver<Maybe<ResolversTypes['Book']>, ParentType, ContextType, RequireFields<MutationDeleteBookArgs, 'bookId'>>;
   login?: Resolver<Maybe<ResolversTypes['loginData']>, ParentType, ContextType, RequireFields<MutationLoginArgs, 'password' | 'username'>>;
 };
 
@@ -250,6 +290,10 @@ export type QueryResolvers<ContextType = TGraphqlCtx, ParentType extends Resolve
   book?: Resolver<Maybe<ResolversTypes['Book']>, ParentType, ContextType, RequireFields<QueryBookArgs, 'bookId'>>;
   books?: Resolver<Maybe<Array<Maybe<ResolversTypes['Book']>>>, ParentType, ContextType>;
 };
+
+export interface UploadScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Upload'], any> {
+  name: 'Upload';
+}
 
 export type LoginDataResolvers<ContextType = TGraphqlCtx, ParentType extends ResolversParentTypes['loginData'] = ResolversParentTypes['loginData']> = {
   message?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -271,6 +315,7 @@ export type Resolvers<ContextType = TGraphqlCtx> = {
   Date?: GraphQLScalarType;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  Upload?: GraphQLScalarType;
   loginData?: LoginDataResolvers<ContextType>;
   loginUserData?: LoginUserDataResolvers<ContextType>;
 };

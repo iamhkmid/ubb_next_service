@@ -1,4 +1,4 @@
-import { prisma } from "../../serivces/prisma";
+import { prisma } from "../../libs/prisma";
 import { TGraphqlCtxFunc } from "../../types/graphql_ctx";
 
 const context: TGraphqlCtxFunc = async ({ req, res }) => {

@@ -7,6 +7,7 @@ import graphqlServer from "./src/graphql"
 
 const PORT = parseInt(process.env.PORT || "3001");
 export const corsOptions = { credentials: true, origin: "*" };
+const gqlUploadOptions = { maxFileSize: 10000000, maxFiles: 3 };
 
 const main = async () => {
   const app: express.Application = express();
@@ -26,7 +27,9 @@ const main = async () => {
   app.use("/altair", altairRoute);
 
   const httpServer = http.createServer(app);
+
   graphqlServer({ app, httpServer });
+
   httpServer.listen(PORT, (err?: any) => {
     if (err) throw err;
     console.log(`⚡️Server is listening on port ${PORT}`);
