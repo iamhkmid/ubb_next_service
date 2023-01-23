@@ -13,11 +13,11 @@ const graphqlServer: TGraphqlServer = async ({ app, httpServer }) => {
     introspection: true,
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
   });
-  
+
   await server.start();
 
   app.use('/graphql',
-    cors<cors.CorsRequest>({ origin: "*", exposedHeaders: ['Authorization'] }),
+    cors<cors.CorsRequest>({ origin: "*", exposedHeaders: ['Authorization'], allowedHeaders: ['Authorization'] }),
     json(),
     expressMiddleware(server, { context }),
   );
