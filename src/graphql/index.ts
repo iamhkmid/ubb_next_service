@@ -16,11 +16,10 @@ const graphqlServer: TGraphqlServer = async ({ app, httpServer }) => {
   await server.start();
 
   app.use('/graphql',
-    cors<cors.CorsRequest>(),
+    cors<cors.CorsRequest>({ origin: "*", exposedHeaders: "Authorization" }),
     json(),
     expressMiddleware(server, { context }),
   );
-
 }
 
 export default graphqlServer
