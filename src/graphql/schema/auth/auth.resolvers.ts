@@ -23,6 +23,7 @@ export const Mutation: MutationResolvers = {
       username: findUser.username,
       role: findUser.role,
     });
+    
     return { message: "Successfully logged in", user: findUser, token }
   }
 }
