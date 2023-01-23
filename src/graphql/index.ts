@@ -16,7 +16,7 @@ const graphqlServer: TGraphqlServer = async ({ app, httpServer }) => {
   await server.start();
 
   app.use('/graphql',
-    cors<cors.CorsRequest>({ origin: "localhost:3000", exposedHeaders: ['Authorization'] }),
+    cors<cors.CorsRequest>({ origin: "*", exposedHeaders: ['Authorization'] }),
     json(),
     expressMiddleware(server, { context }),
   );
