@@ -1,7 +1,5 @@
 import fs from "fs";
-import { GraphQLError } from "graphql";
 import cloudinary from "../../../libs/cloudinary";
-import { ImagesInput, InputMaybe } from "../../../types/graphql";
 
 export const stringPath = (str: string) =>
   str.replace(/([^a-z0-9 ]+)/gi, "-").replace(/\s/g, "-");
