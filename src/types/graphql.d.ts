@@ -169,6 +169,7 @@ export type LoginUserData = {
   __typename?: 'loginUserData';
   fullName?: Maybe<Scalars['String']>;
   role?: Maybe<Scalars['String']>;
+  token?: Maybe<Scalars['String']>;
   username?: Maybe<Scalars['String']>;
 };
 
@@ -393,6 +394,7 @@ export type LoginDataResolvers<ContextType = TGraphqlCtx, ParentType extends Res
 export type LoginUserDataResolvers<ContextType = TGraphqlCtx, ParentType extends ResolversParentTypes['loginUserData'] = ResolversParentTypes['loginUserData']> = {
   fullName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   role?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   username?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };

@@ -11,4 +11,5 @@ type loginUserData {
   fullName: String
   username: String
   role: String
+  token: String
 }
