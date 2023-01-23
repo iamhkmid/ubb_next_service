@@ -5,11 +5,11 @@ type Mutation {
 type loginData {
   message: String
   user: loginUserData
+  token: String
 }
 
 type loginUserData {
   fullName: String
   username: String
   role: String
-  token: String
 }
