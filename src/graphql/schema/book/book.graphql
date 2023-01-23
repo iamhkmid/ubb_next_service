@@ -85,6 +85,7 @@ type BookCategory {
 type BookImage {
   id: String
   publicId: String
+  type: String
   url: String
   secureUrl: String
   createdAt: Date
