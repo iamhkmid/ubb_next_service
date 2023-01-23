@@ -13,6 +13,7 @@ const graphqlServer: TGraphqlServer = async ({ app, httpServer }) => {
     introspection: true,
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
   });
+  
   await server.start();
 
   app.use('/graphql',
