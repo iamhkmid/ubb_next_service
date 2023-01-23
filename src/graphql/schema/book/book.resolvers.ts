@@ -45,8 +45,12 @@ export const Mutation: MutationResolvers = {
     })
     return updateBook
   },
-  deleteBook: async (_, { bookId }, { db }) => {
+  deleteBook: async (_, { bookId }, { db, cloudinary }) => {
+    const findBook = await db.book.findUnique({ where: { id: bookId }, select: { Images: { select: { publicId: true } } } })
     const deleteBook = await db.book.delete({ where: { id: bookId } })
+    for (const img of findBook?.Images || []) {
+      await cloudinary.uploader.destroy(img.publicId)
+    }
     return deleteBook
   },
   addBookCategory: async (_, { data }, { db }) => {

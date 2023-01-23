@@ -51,6 +51,7 @@ export type BookImage = {
   id?: Maybe<Scalars['String']>;
   publicId?: Maybe<Scalars['String']>;
   secureUrl?: Maybe<Scalars['String']>;
+  type?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['Date']>;
   url?: Maybe<Scalars['String']>;
 };
@@ -342,6 +343,7 @@ export type BookImageResolvers<ContextType = TGraphqlCtx, ParentType extends Res
   id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   publicId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   secureUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  type?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   url?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
