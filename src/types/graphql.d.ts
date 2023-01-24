@@ -40,8 +40,7 @@ export type BookCategory = {
   books?: Maybe<Array<Maybe<Book>>>;
   createdAt?: Maybe<Scalars['Date']>;
   id?: Maybe<Scalars['String']>;
-  nameEn?: Maybe<Scalars['String']>;
-  nameId?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['Date']>;
 };
 
@@ -123,8 +122,7 @@ export type QueryBookcategoryArgs = {
 };
 
 export type AddBookCategoryInput = {
-  nameEn: Scalars['String'];
-  nameId: Scalars['String'];
+  name: Scalars['String'];
 };
 
 export type AddBookInput = {
@@ -177,8 +175,7 @@ export type LoginUserData = {
 
 export type UpdateBookCategoryInput = {
   categoryId: Scalars['ID'];
-  nameEn?: InputMaybe<Scalars['String']>;
-  nameId?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
 };
 
 export type UpdateBookInput = {
@@ -333,8 +330,7 @@ export type BookCategoryResolvers<ContextType = TGraphqlCtx, ParentType extends 
   books?: Resolver<Maybe<Array<Maybe<ResolversTypes['Book']>>>, ParentType, ContextType>;
   createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  nameEn?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  nameId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };

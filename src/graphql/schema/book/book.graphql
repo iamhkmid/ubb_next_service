@@ -75,8 +75,7 @@ type Book {
 
 type BookCategory {
   id: String
-  nameId: String
-  nameEn: String
+  name: String
   books: [Book]
   createdAt: Date
   updatedAt: Date
@@ -93,12 +92,10 @@ type BookImage {
 }
 
 input addBookCategoryInput {
-  nameId: String!
-  nameEn: String!
+  name: String!
 }
 
 input updateBookCategoryInput {
   categoryId: ID!
-  nameId: String
-  nameEn: String
+  name: String
 }

@@ -1,5 +1,3 @@
-import { GraphQLError } from "graphql";
-import cloudinary from "../../../libs/cloudinary";
 import { BookResolvers, MutationResolvers, QueryResolvers } from "../../../types/graphql";
 import { stringPath } from "./utils";
 
@@ -55,20 +53,14 @@ export const Mutation: MutationResolvers = {
   },
   addBookCategory: async (_, { data }, { db }) => {
     const addBookCategory = await db.category.create({
-      data: {
-        nameEn: data.nameEn,
-        nameId: data.nameId,
-      },
+      data: { name: data.name }
     })
     return addBookCategory
   },
   updateBookCategory: async (_, { data }, { db }) => {
     const updateBookCategory = await db.category.update({
       where: { id: data.categoryId },
-      data: {
-        nameEn: data.nameEn || undefined,
-        nameId: data.nameId || undefined,
-      },
+      data: { name: data.name || undefined }
     })
     return updateBookCategory
   },
