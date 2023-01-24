@@ -65,8 +65,7 @@ model BookImage {
 
 model Category {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  nameId    String   @unique
-  nameEn    String   @unique
+  name      String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   bookIDs   String[] @db.ObjectId

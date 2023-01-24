@@ -20,8 +20,7 @@ async function main() {
 
   const categoriesData: Prisma.CategoryCreateInput[] = [
     {
-      nameId: "Petualangan",
-      nameEn: "Adventure"
+      name: "Petualangan"
     }
   ]
 
