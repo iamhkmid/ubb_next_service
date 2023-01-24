@@ -5,7 +5,7 @@ import { stringPath } from "./utils";
 
 export const Query: QueryResolvers = {
   books: async (_, __, { db }) => await db.book.findMany(),
-  book: async (_, { bookId }, { db }) => await db.book.findUnique({ where: { id: bookId } }),
+  book: async (_, { bookId, slug }, { db }) => await db.book.findUnique({ where: { id: bookId!, slug: slug! } }),
   bookcategories: async (_, __, { db }) => await db.category.findMany(),
   bookcategory: async (_, { categoryId }, { db }) => await db.category.findUnique({ where: { id: categoryId } }),
 };

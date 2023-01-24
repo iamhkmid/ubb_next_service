@@ -60,6 +60,7 @@ export const uploadBookImage: TUploadBookImage = async (req, res, next) => {
         break;
     }
   } catch (error) {
+    console.log({error})
     res.send({ statusCode: "500", message: "Something went wrong" })
   }
 }

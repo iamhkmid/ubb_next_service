@@ -113,7 +113,8 @@ export type Query = {
 
 
 export type QueryBookArgs = {
-  bookId: Scalars['ID'];
+  bookId?: InputMaybe<Scalars['ID']>;
+  slug?: InputMaybe<Scalars['ID']>;
 };
 
 
@@ -364,7 +365,7 @@ export type MutationResolvers<ContextType = TGraphqlCtx, ParentType extends Reso
 };
 
 export type QueryResolvers<ContextType = TGraphqlCtx, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  book?: Resolver<Maybe<ResolversTypes['Book']>, ParentType, ContextType, RequireFields<QueryBookArgs, 'bookId'>>;
+  book?: Resolver<Maybe<ResolversTypes['Book']>, ParentType, ContextType, Partial<QueryBookArgs>>;
   bookcategories?: Resolver<Maybe<Array<Maybe<ResolversTypes['BookCategory']>>>, ParentType, ContextType>;
   bookcategory?: Resolver<Maybe<ResolversTypes['BookCategory']>, ParentType, ContextType, RequireFields<QueryBookcategoryArgs, 'categoryId'>>;
   books?: Resolver<Maybe<Array<Maybe<ResolversTypes['Book']>>>, ParentType, ContextType>;

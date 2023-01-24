@@ -1,6 +1,6 @@
 type Query {
   books: [Book]
-  book(bookId: ID!): Book
+  book(bookId: ID, slug: ID): Book
   bookcategory(categoryId: ID!): BookCategory
   bookcategories: [BookCategory] 
 }
