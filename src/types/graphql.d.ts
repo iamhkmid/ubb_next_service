@@ -105,8 +105,8 @@ export type MutationUpdateBookCategoryArgs = {
 export type Query = {
   __typename?: 'Query';
   book?: Maybe<Book>;
-  bookcategories?: Maybe<Array<Maybe<BookCategory>>>;
-  bookcategory?: Maybe<BookCategory>;
+  bookCategories?: Maybe<Array<Maybe<BookCategory>>>;
+  bookCategory?: Maybe<BookCategory>;
   books?: Maybe<Array<Maybe<Book>>>;
 };
 
@@ -117,7 +117,7 @@ export type QueryBookArgs = {
 };
 
 
-export type QueryBookcategoryArgs = {
+export type QueryBookCategoryArgs = {
   categoryId: Scalars['ID'];
 };
 
@@ -362,8 +362,8 @@ export type MutationResolvers<ContextType = TGraphqlCtx, ParentType extends Reso
 
 export type QueryResolvers<ContextType = TGraphqlCtx, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   book?: Resolver<Maybe<ResolversTypes['Book']>, ParentType, ContextType, Partial<QueryBookArgs>>;
-  bookcategories?: Resolver<Maybe<Array<Maybe<ResolversTypes['BookCategory']>>>, ParentType, ContextType>;
-  bookcategory?: Resolver<Maybe<ResolversTypes['BookCategory']>, ParentType, ContextType, RequireFields<QueryBookcategoryArgs, 'categoryId'>>;
+  bookCategories?: Resolver<Maybe<Array<Maybe<ResolversTypes['BookCategory']>>>, ParentType, ContextType>;
+  bookCategory?: Resolver<Maybe<ResolversTypes['BookCategory']>, ParentType, ContextType, RequireFields<QueryBookCategoryArgs, 'categoryId'>>;
   books?: Resolver<Maybe<Array<Maybe<ResolversTypes['Book']>>>, ParentType, ContextType>;
 };
 

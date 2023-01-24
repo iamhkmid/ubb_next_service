@@ -1,8 +1,8 @@
 type Query {
   books: [Book]
   book(bookId: ID, slug: ID): Book
-  bookcategory(categoryId: ID!): BookCategory
-  bookcategories: [BookCategory] 
+  bookCategory(categoryId: ID!): BookCategory
+  bookCategories: [BookCategory] 
 }
 
 type Mutation {
