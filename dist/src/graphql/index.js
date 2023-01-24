@@ -17,6 +17,6 @@ const graphqlServer = async ({ app, httpServer }) => {
         plugins: [(0, drainHttpServer_1.ApolloServerPluginDrainHttpServer)({ httpServer })],
     });
     await server.start();
-    app.use('/graphql', (0, cors_1.default)(), (0, body_parser_1.json)(), (0, express4_1.expressMiddleware)(server, { context: context_1.default }));
+    app.use('/graphql', (0, cors_1.default)({ origin: "*", exposedHeaders: ['Authorization'], allowedHeaders: ['Authorization'] }), (0, body_parser_1.json)(), (0, express4_1.expressMiddleware)(server, { context: context_1.default }));
 };
 exports.default = graphqlServer;

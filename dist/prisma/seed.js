@@ -20,8 +20,7 @@ async function main() {
     ];
     const categoriesData = [
         {
-            nameId: "Petualangan",
-            nameEn: "Adventure"
+            name: "Petualangan"
         }
     ];
     const bookData = ({ categoriesIDs }) => {

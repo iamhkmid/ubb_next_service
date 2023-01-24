@@ -31,7 +31,10 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const http = __importStar(require("http"));
 const altairRoute_1 = __importDefault(require("./src/routes/altairRoute"));
+const uploadRoutes_1 = __importDefault(require("./src/routes/uploadRoutes"));
 const graphql_1 = __importDefault(require("./src/graphql"));
+const dotenv = __importStar(require("dotenv"));
+dotenv.config();
 const PORT = parseInt(process.env.PORT || "3001");
 exports.corsOptions = { credentials: true, origin: "*" };
 const gqlUploadOptions = { maxFileSize: 10000000, maxFiles: 3 };
@@ -44,9 +47,10 @@ const main = async () => {
     //     else next();
     //   });
     // }
-    app.use(express_1.default.json());
+    app.use(express_1.default.json({ limit: 1.2 * 1024 * 1024 }));
     app.use((0, cors_1.default)(exports.corsOptions));
     app.use(express_1.default.urlencoded({ extended: true }));
+    app.use("/upload", uploadRoutes_1.default);
     app.use("/altair", altairRoute_1.default);
     const httpServer = http.createServer(app);
     (0, graphql_1.default)({ app, httpServer });
