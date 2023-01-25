@@ -26,7 +26,7 @@ input addBookInput {
   price: Int
   stock: Int
   publisher: String!
-  publicationYear: String!
+  publicationYear: Int!
   description: String
   printType: String!
   numberOfPages: Int!
@@ -41,7 +41,7 @@ input updateBookInput {
   stock: Int
   publisher: String
   description: String
-  publicationYear: String
+  publicationYear: Int
   printType: String
   numberOfPages: Int
   isbn: String
@@ -75,7 +75,7 @@ type Book {
   Images: [BookImage]
   Categories: [BookCategory]
   printType: String
-  publicationYear: String
+  publicationYear: Int
   isbn: String
   slug: String
   createdAt: Date

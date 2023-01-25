@@ -19,11 +19,7 @@ async function main() {
     },
   ]
 
-  const categoriesData: Prisma.CategoryCreateInput[] = [
-    {
-      name: "Petualangan"
-    }
-  ]
+  const categoriesData: Prisma.CategoryCreateInput[] = []
 
   type TBookData = (p: { categoriesIDs: { id: string }[] }) => Prisma.BookCreateInput[]
 
@@ -39,7 +35,7 @@ async function main() {
         printType: "Cetak",
         numberOfPages: 51,
         isbn: "dalam proses",
-        publicationDate: new Date("1/1/2022").toISOString(),
+        publicationYear : 2022,
         slug: stringPath("Pengantar Kriminologi-Dwi Haryadi dan Ndaru Satrio"),
         createdAt: "2023-01-25T05:00:39.545Z",
         updatedAt: "2023-01-25T05:00:39.545Z",
@@ -64,7 +60,7 @@ async function main() {
         printType: "Cetak",
         numberOfPages: 126,
         isbn: "978-979-1373-65-4",
-        publicationDate: new Date("1/1/2022").toISOString(),
+        publicationYear : 2022,
         slug: stringPath("Ergonomi Partisipatif di Pertambangan Timah Indonesia-R. Priyoko Prayitnoadi"),
         createdAt: "2023-01-25T05:14:29.286Z",
         updatedAt: "2023-01-25T05:14:29.286Z",
@@ -89,7 +85,7 @@ async function main() {
         printType: "Cetak",
         numberOfPages: 200,
         isbn: "978-979-1373-66-1",
-        publicationDate: new Date("1/1/2022").toISOString(),
+        publicationYear : 2022,
         slug: stringPath("Metodologi penelitian bisnis pendekatan kuantitatif & kualitatif : disertai dengan contoh-Reniati"),
         createdAt: "2023-01-25T05:25:12.995Z",
         updatedAt: "2023-01-25T05:25:12.995Z",
@@ -114,7 +110,7 @@ async function main() {
         printType: "Cetak",
         numberOfPages: 112,
         isbn: "978-979-1373-62-3",
-        publicationDate: new Date("1/1/2022").toISOString(),
+        publicationYear : 2022,
         slug: stringPath("Akuntansi syariah : berdasarkan SAK syariah per 1 januari 2019-Sumiyati, Anggraeni Yunita, Suhaidar"),
         createdAt: "2023-01-25T05:54:23.799Z",
         updatedAt: "2023-01-25T05:54:23.799Z",
@@ -139,7 +135,7 @@ async function main() {
         printType: "Cetak",
         numberOfPages: 136,
         isbn: "978-979-1373-61-6",
-        publicationDate: new Date("1/1/2022").toISOString(),
+        publicationYear : 2022,
         slug: stringPath("Al Quran & mikrobiologi : catatan seorang mikrobiolog-Andri Kurniawan"),
         createdAt: "2023-01-25T05:59:23.810Z",
         updatedAt: "2023-01-25T05:59:23.810Z",

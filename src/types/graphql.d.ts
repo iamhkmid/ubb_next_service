@@ -28,7 +28,7 @@ export type Book = {
   numberOfPages?: Maybe<Scalars['Int']>;
   price?: Maybe<Scalars['Int']>;
   printType?: Maybe<Scalars['String']>;
-  publicationYear?: Maybe<Scalars['String']>;
+  publicationYear?: Maybe<Scalars['Int']>;
   publisher?: Maybe<Scalars['String']>;
   slug?: Maybe<Scalars['String']>;
   stock?: Maybe<Scalars['Int']>;
@@ -138,7 +138,7 @@ export type AddBookInput = {
   numberOfPages: Scalars['Int'];
   price?: InputMaybe<Scalars['Int']>;
   printType: Scalars['String'];
-  publicationYear: Scalars['String'];
+  publicationYear: Scalars['Int'];
   publisher: Scalars['String'];
   stock?: InputMaybe<Scalars['Int']>;
   title: Scalars['String'];
@@ -199,7 +199,7 @@ export type UpdateBookInput = {
   numberOfPages?: InputMaybe<Scalars['Int']>;
   price?: InputMaybe<Scalars['Int']>;
   printType?: InputMaybe<Scalars['String']>;
-  publicationYear?: InputMaybe<Scalars['String']>;
+  publicationYear?: InputMaybe<Scalars['Int']>;
   publisher?: InputMaybe<Scalars['String']>;
   stock?: InputMaybe<Scalars['Int']>;
   title?: InputMaybe<Scalars['String']>;
@@ -334,7 +334,7 @@ export type BookResolvers<ContextType = TGraphqlCtx, ParentType extends Resolver
   numberOfPages?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   price?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   printType?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  publicationYear?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  publicationYear?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   publisher?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   slug?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   stock?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;

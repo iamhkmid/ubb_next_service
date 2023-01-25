@@ -43,7 +43,7 @@ model Book {
   printType       String
   numberOfPages   Int
   isbn            String
-  publicationDate DateTime
+  publicationYear Int
   slug            String      @unique
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
