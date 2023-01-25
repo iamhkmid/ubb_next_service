@@ -1,5 +1,5 @@
 type Query {
-  books: [Book]
+  books(filter: filterBooksInput): [Book]
   book(bookId: ID, slug: ID): Book
   bookCategory(categoryId: ID!): BookCategory
   bookCategories: [BookCategory] 
@@ -12,6 +12,12 @@ type Mutation {
   addBookCategory(data: addBookCategoryInput!): BookCategory @auth(requires: ADMIN)
   updateBookCategory (data: updateBookCategoryInput!): BookCategory @auth(requires: ADMIN)
   deleteBookCategory(categoryId: ID!): BookCategory @auth(requires: ADMIN)
+}
+
+input filterBooksInput {
+  categoryIds: [String]
+  minAmount: Int
+  maxAmount: Int
 }
 
 input addBookInput {

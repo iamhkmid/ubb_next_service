@@ -2,7 +2,19 @@ import { BookResolvers, MutationResolvers, QueryResolvers } from "../../../types
 import { stringPath } from "./utils";
 
 export const Query: QueryResolvers = {
-  books: async (_, __, { db }) => await db.book.findMany(),
+  books: async (_, { filter }, { db }) => {
+    const categoryIDs = filter?.categoryIds as string[] | undefined
+    const books = await db.book.findMany({
+      where: {
+        categoryIDs: categoryIDs ? { hasEvery: categoryIDs } : undefined,
+        price: {
+          gte: filter?.minAmount || undefined,
+          lte: filter?.maxAmount || undefined
+        }
+      }
+    })
+    return books
+  },
   book: async (_, { bookId, slug }, { db }) => await db.book.findUnique({ where: { id: bookId!, slug: slug! } }),
   bookCategories: async (_, __, { db }) => await db.category.findMany(),
   bookCategory: async (_, { categoryId }, { db }) => await db.category.findUnique({ where: { id: categoryId } }),

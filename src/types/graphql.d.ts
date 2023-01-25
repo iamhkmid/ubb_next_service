@@ -121,6 +121,11 @@ export type QueryBookCategoryArgs = {
   categoryId: Scalars['ID'];
 };
 
+
+export type QueryBooksArgs = {
+  filter?: InputMaybe<FilterBooksInput>;
+};
+
 export type AddBookCategoryInput = {
   name: Scalars['String'];
 };
@@ -157,6 +162,12 @@ export type DeleteBook = {
   stock?: Maybe<Scalars['Int']>;
   title?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['Date']>;
+};
+
+export type FilterBooksInput = {
+  categoryIds?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  maxAmount?: InputMaybe<Scalars['Int']>;
+  minAmount?: InputMaybe<Scalars['Int']>;
 };
 
 export type LoginData = {
@@ -274,6 +285,7 @@ export type ResolversTypes = {
   addBookInput: AddBookInput;
   authRole: AuthRole;
   deleteBook: ResolverTypeWrapper<DeleteBook>;
+  filterBooksInput: FilterBooksInput;
   loginData: ResolverTypeWrapper<LoginData>;
   loginUserData: ResolverTypeWrapper<LoginUserData>;
   updateBookCategoryInput: UpdateBookCategoryInput;
@@ -295,6 +307,7 @@ export type ResolversParentTypes = {
   addBookCategoryInput: AddBookCategoryInput;
   addBookInput: AddBookInput;
   deleteBook: DeleteBook;
+  filterBooksInput: FilterBooksInput;
   loginData: LoginData;
   loginUserData: LoginUserData;
   updateBookCategoryInput: UpdateBookCategoryInput;
@@ -364,7 +377,7 @@ export type QueryResolvers<ContextType = TGraphqlCtx, ParentType extends Resolve
   book?: Resolver<Maybe<ResolversTypes['Book']>, ParentType, ContextType, Partial<QueryBookArgs>>;
   bookCategories?: Resolver<Maybe<Array<Maybe<ResolversTypes['BookCategory']>>>, ParentType, ContextType>;
   bookCategory?: Resolver<Maybe<ResolversTypes['BookCategory']>, ParentType, ContextType, RequireFields<QueryBookCategoryArgs, 'categoryId'>>;
-  books?: Resolver<Maybe<Array<Maybe<ResolversTypes['Book']>>>, ParentType, ContextType>;
+  books?: Resolver<Maybe<Array<Maybe<ResolversTypes['Book']>>>, ParentType, ContextType, Partial<QueryBooksArgs>>;
 };
 
 export type DeleteBookResolvers<ContextType = TGraphqlCtx, ParentType extends ResolversParentTypes['deleteBook'] = ResolversParentTypes['deleteBook']> = {
