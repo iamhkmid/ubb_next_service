@@ -13,9 +13,12 @@ export const Query: QueryResolvers = {
         }
       }
     })
-    return books
+    return books.map((book) => ({ ...book, publicationYear: book.publicationDate.getFullYear().toString() }))
   },
-  book: async (_, { bookId, slug }, { db }) => await db.book.findUnique({ where: { id: bookId!, slug: slug! } }),
+  book: async (_, { bookId, slug }, { db }) => {
+    const book = await db.book.findUnique({ where: { id: bookId!, slug: slug! } })
+    return { ...book, publicationYear: book?.publicationDate.getFullYear().toString() }
+  },
   bookCategories: async (_, __, { db }) => await db.category.findMany(),
   bookCategory: async (_, { categoryId }, { db }) => await db.category.findUnique({ where: { id: categoryId } }),
 };
@@ -32,8 +35,9 @@ export const Mutation: MutationResolvers = {
         description: data.description,
         printType: data.printType,
         numberOfPages: data.numberOfPages,
+        publicationDate: new Date(`1/1/${data.publicationYear}`),
         isbn: data.isbn,
-        slug: stringPath(`${data.publisher}-${data.title}`)
+        slug: stringPath(`${data.title}-${data.authorName}`)
       },
     })
     return addBook
@@ -49,6 +53,7 @@ export const Mutation: MutationResolvers = {
         publisher: data.publisher || undefined,
         description: data.description || undefined,
         printType: data.printType || undefined,
+        publicationDate: data.publicationYear ? new Date(`1/1/${data.publicationYear}`) : undefined,
         numberOfPages: data.numberOfPages || undefined,
         isbn: data.isbn || undefined
       },

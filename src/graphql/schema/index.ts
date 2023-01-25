@@ -5,8 +5,8 @@ import { loadFilesSync } from "@graphql-tools/load-files";
 import path from 'path';
 import { mergeTypeDefs } from '@graphql-tools/merge';
 
-const typesArray = loadFilesSync(path.join(process.cwd(), 'src/graphql/schema/**/*.graphql'), { recursive: true })
-const typeDefs = mergeTypeDefs(typesArray)
+const typesDefArray = loadFilesSync(path.join(process.cwd(), 'src/graphql/schema/**/*.graphql'), { recursive: true })
+const typeDefs = mergeTypeDefs(typesDefArray)
 
 const isDev = process.env.NODE_ENV === "development"
 const resolverArray = loadFilesSync(path.join(__dirname, `./**/*.resolvers.${isDev ? "ts" : "js"}`), { recursive: true })

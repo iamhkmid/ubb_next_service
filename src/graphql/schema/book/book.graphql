@@ -23,10 +23,11 @@ input filterBooksInput {
 input addBookInput {
   title: String!
   authorName: String!
-  price: Int!
-  stock: Int!
+  price: Int
+  stock: Int
   publisher: String!
-  description: String!
+  publicationYear: String!
+  description: String
   printType: String!
   numberOfPages: Int!
   isbn: String!
@@ -40,6 +41,7 @@ input updateBookInput {
   stock: Int
   publisher: String
   description: String
+  publicationYear: String
   printType: String
   numberOfPages: Int
   isbn: String
@@ -73,6 +75,7 @@ type Book {
   Images: [BookImage]
   Categories: [BookCategory]
   printType: String
+  publicationYear: String
   isbn: String
   slug: String
   createdAt: Date
