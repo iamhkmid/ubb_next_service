@@ -8,7 +8,7 @@ import * as dotenv from 'dotenv'
 
 dotenv.config()
 const PORT = parseInt(process.env.PORT || "3001");
-export const corsOptions = { credentials: true, origin: "*", exposedHeaders: ["Authorization"], allowedHeaders: ["Authorization"] };
+export const corsOptions = { origin: "*", exposedHeaders: ["Authorization"] };
 
 const main = async () => {
   const app: express.Application = express();
