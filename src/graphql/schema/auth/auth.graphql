@@ -5,7 +5,6 @@ type Mutation {
 type loginData {
   message: String
   user: loginUserData
-  token: String
 }
 
 type loginUserData {

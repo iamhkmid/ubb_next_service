@@ -23,7 +23,9 @@ export const Mutation: MutationResolvers = {
       username: findUser.username,
       role: findUser.role,
     });
+
+    res.setHeader("Authorization", token)
     
-    return { message: "Successfully logged in", user: findUser, token }
+    return { message: "Successfully logged in", user: findUser }
   }
 }
