@@ -40,6 +40,7 @@ input updateBookInput {
   authorName: String
   price: Int
   stock: Int
+  categoryIds: [String]
   publisher: String
   description: String
   publicationYear: Int

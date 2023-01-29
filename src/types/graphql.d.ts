@@ -194,6 +194,7 @@ export type UpdateBookCategoryInput = {
 export type UpdateBookInput = {
   authorName?: InputMaybe<Scalars['String']>;
   bookId: Scalars['ID'];
+  categoryIds?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   description?: InputMaybe<Scalars['String']>;
   isbn?: InputMaybe<Scalars['String']>;
   numberOfPages?: InputMaybe<Scalars['Int']>;
