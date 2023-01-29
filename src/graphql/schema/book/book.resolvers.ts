@@ -52,7 +52,7 @@ export const Mutation: MutationResolvers = {
         price: data.price || undefined,
         stock: data.stock || undefined,
         publisher: data.publisher || undefined,
-        Categories: { set: data?.categoryIds?.length ? data.categoryIds.map((catId) => ({ id: catId as string })) : undefined },
+        Categories: { set: Array.isArray(data?.categoryIds) ? data.categoryIds.map((catId) => ({ id: catId as string })) : undefined },
         description: data.description || undefined,
         printType: data.printType || undefined,
         publicationYear: data.publicationYear || undefined,
