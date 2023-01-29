@@ -133,6 +133,7 @@ export type AddBookCategoryInput = {
 
 export type AddBookInput = {
   authorName: Scalars['String'];
+  categoryIds?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   description?: InputMaybe<Scalars['String']>;
   isbn: Scalars['String'];
   numberOfPages: Scalars['Int'];

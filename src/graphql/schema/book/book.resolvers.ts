@@ -33,6 +33,7 @@ export const Mutation: MutationResolvers = {
         stock: data.stock,
         publisher: data.publisher,
         description: data.description,
+        Categories: { connect: data?.categoryIds?.length ? data.categoryIds.map((catId) => ({ id: catId as string})) : undefined },
         printType: data.printType,
         numberOfPages: data.numberOfPages,
         publicationYear: data.publicationYear,

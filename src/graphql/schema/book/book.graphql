@@ -26,6 +26,7 @@ input addBookInput {
   price: Int
   stock: Int
   publisher: String!
+  categoryIds: [String]
   publicationYear: Int!
   description: String
   printType: String!
