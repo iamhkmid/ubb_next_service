@@ -8,19 +8,10 @@ import * as dotenv from 'dotenv'
 
 dotenv.config()
 const PORT = parseInt(process.env.PORT || "3001");
-export const corsOptions = { credentials: true, origin: "*" };
-const gqlUploadOptions = { maxFileSize: 10000000, maxFiles: 3 };
+export const corsOptions = { credentials: true, origin: "*", exposedHeaders: ["Authorization"], allowedHeaders: ["Authorization"] };
 
 const main = async () => {
   const app: express.Application = express();
-
-  // if (process.env.NODE_ENV === "production") {
-  //   app.use((req, res, next) => {
-  //     if (req.header("x-forwarded-proto") !== "https")
-  //       res.redirect(`https://${req.header("host")}${req.url}`);
-  //     else next();
-  //   });
-  // }
 
   app.use(express.json({ limit: 1.2 * 1024 * 1024 }));
   app.use(cors(corsOptions));
@@ -35,7 +26,7 @@ const main = async () => {
 
   httpServer.listen(PORT, (err?: any) => {
     if (err) throw err;
-    console.log(`⚡️Server is listening on port ${PORT}`);
+    console.log(`⚡️ Server is listening on port ${PORT}`);
     console.log(`GraphQL path: "/graphql"`);
   });
 

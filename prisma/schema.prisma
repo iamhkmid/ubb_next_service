@@ -72,3 +72,21 @@ model Category {
   bookIDs   String[] @db.ObjectId
   Books     Book[]   @relation(fields: [bookIDs], references: [id])
 }
+
+model Banner {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  publicId  String   @unique
+  url       String
+  secureUrl String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Contact {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String   @unique
+  url       String
+  type      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

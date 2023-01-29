@@ -1,5 +1,5 @@
 import express from "express";
-import { uploadBookImage } from "../middlewares/uploads";
+import { uploadBookImage } from "../middlewares/uploadBookImage";
 
 const uploadRoutes = express.Router();
 
