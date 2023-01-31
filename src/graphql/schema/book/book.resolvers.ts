@@ -57,7 +57,8 @@ export const Mutation: MutationResolvers = {
         printType: data.printType || undefined,
         publicationYear: data.publicationYear || undefined,
         numberOfPages: data.numberOfPages || undefined,
-        isbn: data.isbn || undefined
+        isbn: data.isbn || undefined,
+        slug: data.title && data?.authorName ? stringPath(`${data.title}-${data.authorName}`) : undefined
       },
     })
     return updateBook
