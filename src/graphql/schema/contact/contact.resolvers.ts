@@ -13,6 +13,15 @@ export const Query: QueryResolvers = {
 
 export const Mutation: MutationResolvers = {
   updateContact: async (_, { data }, { db }) => {
+    return await db.contact.update({
+      where: { id: data?.id },
+      data: {
+        name: data?.name || undefined,
+        url: data?.url || undefined
+      }
+    })
+  },
+  updateContacts: async (_, { data }, { db }) => {
     return await db.$transaction(
       data.map((contact) => db.contact.update({
         where: { id: contact?.id },

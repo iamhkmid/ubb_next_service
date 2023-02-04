@@ -75,7 +75,8 @@ export type Mutation = {
   login?: Maybe<LoginData>;
   updateBook?: Maybe<Book>;
   updateBookCategory?: Maybe<BookCategory>;
-  updateContact?: Maybe<Array<Maybe<Contact>>>;
+  updateContact?: Maybe<Contact>;
+  updateContacts?: Maybe<Array<Maybe<Contact>>>;
 };
 
 
@@ -116,6 +117,11 @@ export type MutationUpdateBookCategoryArgs = {
 
 
 export type MutationUpdateContactArgs = {
+  data: UpdateContactInput;
+};
+
+
+export type MutationUpdateContactsArgs = {
   data: Array<InputMaybe<UpdateContactInput>>;
 };
 
@@ -420,7 +426,8 @@ export type MutationResolvers<ContextType = TGraphqlCtx, ParentType extends Reso
   login?: Resolver<Maybe<ResolversTypes['loginData']>, ParentType, ContextType, RequireFields<MutationLoginArgs, 'password' | 'username'>>;
   updateBook?: Resolver<Maybe<ResolversTypes['Book']>, ParentType, ContextType, RequireFields<MutationUpdateBookArgs, 'data'>>;
   updateBookCategory?: Resolver<Maybe<ResolversTypes['BookCategory']>, ParentType, ContextType, RequireFields<MutationUpdateBookCategoryArgs, 'data'>>;
-  updateContact?: Resolver<Maybe<Array<Maybe<ResolversTypes['Contact']>>>, ParentType, ContextType, RequireFields<MutationUpdateContactArgs, 'data'>>;
+  updateContact?: Resolver<Maybe<ResolversTypes['Contact']>, ParentType, ContextType, RequireFields<MutationUpdateContactArgs, 'data'>>;
+  updateContacts?: Resolver<Maybe<Array<Maybe<ResolversTypes['Contact']>>>, ParentType, ContextType, RequireFields<MutationUpdateContactsArgs, 'data'>>;
 };
 
 export type QueryResolvers<ContextType = TGraphqlCtx, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {

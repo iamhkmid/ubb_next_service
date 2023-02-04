@@ -4,11 +4,12 @@ type Query {
 }
 
 type Mutation {
-  updateContact(data: [updateContactInput]!): [Contact] @auth(requires: ADMIN)
+  updateContact(data: updateContactInput!): Contact @auth(requires: ADMIN)
+  updateContacts(data: [updateContactInput]!): [Contact] @auth(requires: ADMIN)
 }
 
 input updateContactInput {
-  id: ID!
+  contactId: ID!
   name: String
   url: String
 }
