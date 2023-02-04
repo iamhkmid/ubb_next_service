@@ -1,0 +1,22 @@
+type Query {
+  contact: [Contact]
+}
+
+type Mutation {
+  updateContact(data: [updateContactInput]!): [Contact] @auth(requires: ADMIN)
+}
+
+input updateContactInput {
+  id: ID!
+  name: String
+  url: String
+}
+
+type Contact {
+  id: ID
+  name: String
+  url: String
+  image: String
+  createdAt: Date
+  updatedAt: Date
+}

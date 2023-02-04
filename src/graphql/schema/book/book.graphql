@@ -50,7 +50,7 @@ input updateBookInput {
 }
 
 type deleteBook {
-  id: String
+  id: ID
   title: String
   authorName: String
   price: Int
@@ -66,7 +66,7 @@ type deleteBook {
 }
 
 type Book {
-  id: String
+  id: ID
   title: String
   authorName: String
   price: Int
