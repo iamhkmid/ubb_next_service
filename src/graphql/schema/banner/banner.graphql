@@ -13,8 +13,9 @@ input addBannerInput {
 
 type Banner {
   id: ID
-  name: String
+  title: String
   image: String
+  publicId: String
   createdAt: Date
   updatedAt: Date
 }

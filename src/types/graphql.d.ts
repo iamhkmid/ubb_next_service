@@ -21,7 +21,8 @@ export type Banner = {
   createdAt?: Maybe<Scalars['Date']>;
   id?: Maybe<Scalars['ID']>;
   image?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
+  publicId?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['Date']>;
 };
 
@@ -393,7 +394,8 @@ export type BannerResolvers<ContextType = TGraphqlCtx, ParentType extends Resolv
   createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   image?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  publicId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
