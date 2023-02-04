@@ -16,6 +16,15 @@ export type Scalars = {
   Date: any;
 };
 
+export type Banner = {
+  __typename?: 'Banner';
+  createdAt?: Maybe<Scalars['Date']>;
+  id?: Maybe<Scalars['ID']>;
+  image?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['Date']>;
+};
+
 export type Book = {
   __typename?: 'Book';
   Categories?: Maybe<Array<Maybe<BookCategory>>>;
@@ -68,6 +77,7 @@ export type Contact = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  addBanner?: Maybe<Banner>;
   addBook?: Maybe<Book>;
   addBookCategory?: Maybe<BookCategory>;
   deleteBook?: Maybe<Book>;
@@ -77,6 +87,11 @@ export type Mutation = {
   updateBookCategory?: Maybe<BookCategory>;
   updateContact?: Maybe<Contact>;
   updateContacts?: Maybe<Array<Maybe<Contact>>>;
+};
+
+
+export type MutationAddBannerArgs = {
+  data: AddBannerInput;
 };
 
 
@@ -127,6 +142,7 @@ export type MutationUpdateContactsArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  banners?: Maybe<Array<Maybe<Banner>>>;
   book?: Maybe<Book>;
   bookCategories?: Maybe<Array<Maybe<BookCategory>>>;
   bookCategory?: Maybe<BookCategory>;
@@ -155,6 +171,11 @@ export type QueryBooksArgs = {
 export type QueryContactArgs = {
   contactId?: InputMaybe<Scalars['ID']>;
   name?: InputMaybe<Scalars['String']>;
+};
+
+export type AddBannerInput = {
+  image: Scalars['String'];
+  title: Scalars['String'];
 };
 
 export type AddBookCategoryInput = {
@@ -237,7 +258,7 @@ export type UpdateBookInput = {
 };
 
 export type UpdateContactInput = {
-  id: Scalars['ID'];
+  contactId: Scalars['ID'];
   name?: InputMaybe<Scalars['String']>;
   url?: InputMaybe<Scalars['String']>;
 };
@@ -311,6 +332,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
+  Banner: ResolverTypeWrapper<Banner>;
   Book: ResolverTypeWrapper<Book>;
   BookCategory: ResolverTypeWrapper<BookCategory>;
   BookImage: ResolverTypeWrapper<BookImage>;
@@ -322,6 +344,7 @@ export type ResolversTypes = {
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']>;
+  addBannerInput: AddBannerInput;
   addBookCategoryInput: AddBookCategoryInput;
   addBookInput: AddBookInput;
   authRole: AuthRole;
@@ -336,6 +359,7 @@ export type ResolversTypes = {
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
+  Banner: Banner;
   Book: Book;
   BookCategory: BookCategory;
   BookImage: BookImage;
@@ -347,6 +371,7 @@ export type ResolversParentTypes = {
   Mutation: {};
   Query: {};
   String: Scalars['String'];
+  addBannerInput: AddBannerInput;
   addBookCategoryInput: AddBookCategoryInput;
   addBookInput: AddBookInput;
   deleteBook: DeleteBook;
@@ -363,6 +388,15 @@ export type AuthDirectiveArgs = {
 };
 
 export type AuthDirectiveResolver<Result, Parent, ContextType = TGraphqlCtx, Args = AuthDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+
+export type BannerResolvers<ContextType = TGraphqlCtx, ParentType extends ResolversParentTypes['Banner'] = ResolversParentTypes['Banner']> = {
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
+  id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  image?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
 
 export type BookResolvers<ContextType = TGraphqlCtx, ParentType extends ResolversParentTypes['Book'] = ResolversParentTypes['Book']> = {
   Categories?: Resolver<Maybe<Array<Maybe<ResolversTypes['BookCategory']>>>, ParentType, ContextType>;
@@ -419,6 +453,7 @@ export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 }
 
 export type MutationResolvers<ContextType = TGraphqlCtx, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  addBanner?: Resolver<Maybe<ResolversTypes['Banner']>, ParentType, ContextType, RequireFields<MutationAddBannerArgs, 'data'>>;
   addBook?: Resolver<Maybe<ResolversTypes['Book']>, ParentType, ContextType, RequireFields<MutationAddBookArgs, 'data'>>;
   addBookCategory?: Resolver<Maybe<ResolversTypes['BookCategory']>, ParentType, ContextType, RequireFields<MutationAddBookCategoryArgs, 'data'>>;
   deleteBook?: Resolver<Maybe<ResolversTypes['Book']>, ParentType, ContextType, RequireFields<MutationDeleteBookArgs, 'bookId'>>;
@@ -431,6 +466,7 @@ export type MutationResolvers<ContextType = TGraphqlCtx, ParentType extends Reso
 };
 
 export type QueryResolvers<ContextType = TGraphqlCtx, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  banners?: Resolver<Maybe<Array<Maybe<ResolversTypes['Banner']>>>, ParentType, ContextType>;
   book?: Resolver<Maybe<ResolversTypes['Book']>, ParentType, ContextType, Partial<QueryBookArgs>>;
   bookCategories?: Resolver<Maybe<Array<Maybe<ResolversTypes['BookCategory']>>>, ParentType, ContextType>;
   bookCategory?: Resolver<Maybe<ResolversTypes['BookCategory']>, ParentType, ContextType, RequireFields<QueryBookCategoryArgs, 'categoryId'>>;
@@ -470,6 +506,7 @@ export type LoginUserDataResolvers<ContextType = TGraphqlCtx, ParentType extends
 };
 
 export type Resolvers<ContextType = TGraphqlCtx> = {
+  Banner?: BannerResolvers<ContextType>;
   Book?: BookResolvers<ContextType>;
   BookCategory?: BookCategoryResolvers<ContextType>;
   BookImage?: BookImageResolvers<ContextType>;

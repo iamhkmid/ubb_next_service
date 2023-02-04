@@ -1,0 +1,20 @@
+type Query {
+  banners: [Banner]
+}
+
+type Mutation {
+  addBanner(data: addBannerInput!): Banner @auth(requires: ADMIN)
+}
+
+input addBannerInput {
+  title: String!
+  image: String!
+}
+
+type Banner {
+  id: ID
+  name: String
+  image: String
+  createdAt: Date
+  updatedAt: Date
+}

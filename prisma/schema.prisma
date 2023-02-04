@@ -76,8 +76,8 @@ model Category {
 model Banner {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   publicId  String   @unique
-  url       String
-  secureUrl String
+  title     String
+  image     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -86,7 +86,8 @@ model Contact {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   name      String   @unique
   url       String
-  image     String   
+  image     String
+  publicId  String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

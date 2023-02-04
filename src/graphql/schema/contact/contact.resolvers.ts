@@ -14,7 +14,7 @@ export const Query: QueryResolvers = {
 export const Mutation: MutationResolvers = {
   updateContact: async (_, { data }, { db }) => {
     return await db.contact.update({
-      where: { id: data?.id },
+      where: { id: data?.contactId },
       data: {
         name: data?.name || undefined,
         url: data?.url || undefined
@@ -24,7 +24,7 @@ export const Mutation: MutationResolvers = {
   updateContacts: async (_, { data }, { db }) => {
     return await db.$transaction(
       data.map((contact) => db.contact.update({
-        where: { id: contact?.id },
+        where: { id: contact?.contactId },
         data: {
           name: contact?.name || undefined,
           url: contact?.url || undefined
