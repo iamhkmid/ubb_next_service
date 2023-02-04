@@ -1,5 +1,6 @@
 type Query {
-  contact: [Contact]
+  contact(contactId:ID, name: String):  Contact
+  contacts: [Contact]
 }
 
 type Mutation {

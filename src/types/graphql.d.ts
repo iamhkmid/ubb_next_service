@@ -125,7 +125,8 @@ export type Query = {
   bookCategories?: Maybe<Array<Maybe<BookCategory>>>;
   bookCategory?: Maybe<BookCategory>;
   books?: Maybe<Array<Maybe<Book>>>;
-  contact?: Maybe<Array<Maybe<Contact>>>;
+  contact?: Maybe<Contact>;
+  contacts?: Maybe<Array<Maybe<Contact>>>;
 };
 
 
@@ -142,6 +143,12 @@ export type QueryBookCategoryArgs = {
 
 export type QueryBooksArgs = {
   filter?: InputMaybe<FilterBooksInput>;
+};
+
+
+export type QueryContactArgs = {
+  contactId?: InputMaybe<Scalars['ID']>;
+  name?: InputMaybe<Scalars['String']>;
 };
 
 export type AddBookCategoryInput = {
@@ -421,7 +428,8 @@ export type QueryResolvers<ContextType = TGraphqlCtx, ParentType extends Resolve
   bookCategories?: Resolver<Maybe<Array<Maybe<ResolversTypes['BookCategory']>>>, ParentType, ContextType>;
   bookCategory?: Resolver<Maybe<ResolversTypes['BookCategory']>, ParentType, ContextType, RequireFields<QueryBookCategoryArgs, 'categoryId'>>;
   books?: Resolver<Maybe<Array<Maybe<ResolversTypes['Book']>>>, ParentType, ContextType, Partial<QueryBooksArgs>>;
-  contact?: Resolver<Maybe<Array<Maybe<ResolversTypes['Contact']>>>, ParentType, ContextType>;
+  contact?: Resolver<Maybe<ResolversTypes['Contact']>, ParentType, ContextType, Partial<QueryContactArgs>>;
+  contacts?: Resolver<Maybe<Array<Maybe<ResolversTypes['Contact']>>>, ParentType, ContextType>;
 };
 
 export type DeleteBookResolvers<ContextType = TGraphqlCtx, ParentType extends ResolversParentTypes['deleteBook'] = ResolversParentTypes['deleteBook']> = {
