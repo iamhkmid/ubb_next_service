@@ -3,17 +3,12 @@ type Query {
 }
 
 type Mutation {
-  addBanner(data: addBannerInput!): Banner @auth(requires: ADMIN)
-}
-
-input addBannerInput {
-  title: String!
-  image: String!
+  addBanner(imageBase64: String!): Banner @auth(requires: ADMIN)
+  deleteBanner(bannerId: ID!): Banner @auth(requires: ADMIN)
 }
 
 type Banner {
   id: ID
-  title: String
   image: String
   publicId: String
   createdAt: Date

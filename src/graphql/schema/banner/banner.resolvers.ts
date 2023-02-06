@@ -9,8 +9,8 @@ export const Query: QueryResolvers = {
 };
 
 export const Mutation: MutationResolvers = {
-  addBanner: async (_, { data }, { db }) => {
-    const file = data?.image
+  addBanner: async (_, { imageBase64 }, { db }) => {
+    const file = imageBase64
     const fileTypes = ["image/jpeg", "image/png"]
     const limit = 1048576
     const bufferFile = Buffer.from(file.split("base64,")[1], "base64")
@@ -21,10 +21,14 @@ export const Mutation: MutationResolvers = {
 
     return await db.banner.create({
       data: {
-        title: data.title,
         image: image.secure_url,
         publicId: image.public_id
       }
     })
-  }
+  },
+  deleteBanner: async (_, { bannerId }, { db, cloudinary }) => {
+    const deleteBanner = await db.banner.delete({ where: { id: bannerId } })
+    if(deleteBanner?.publicId) await cloudinary.uploader.destroy(deleteBanner.publicId)
+    return deleteBanner
+  },
 }

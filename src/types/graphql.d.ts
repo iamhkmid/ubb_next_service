@@ -22,7 +22,6 @@ export type Banner = {
   id?: Maybe<Scalars['ID']>;
   image?: Maybe<Scalars['String']>;
   publicId?: Maybe<Scalars['String']>;
-  title?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['Date']>;
 };
 
@@ -81,6 +80,7 @@ export type Mutation = {
   addBanner?: Maybe<Banner>;
   addBook?: Maybe<Book>;
   addBookCategory?: Maybe<BookCategory>;
+  deleteBanner?: Maybe<Banner>;
   deleteBook?: Maybe<Book>;
   deleteBookCategory?: Maybe<BookCategory>;
   login?: Maybe<LoginData>;
@@ -92,7 +92,7 @@ export type Mutation = {
 
 
 export type MutationAddBannerArgs = {
-  data: AddBannerInput;
+  imageBase64: Scalars['String'];
 };
 
 
@@ -103,6 +103,11 @@ export type MutationAddBookArgs = {
 
 export type MutationAddBookCategoryArgs = {
   data: AddBookCategoryInput;
+};
+
+
+export type MutationDeleteBannerArgs = {
+  bannerId: Scalars['ID'];
 };
 
 
@@ -172,11 +177,6 @@ export type QueryBooksArgs = {
 export type QueryContactArgs = {
   contactId?: InputMaybe<Scalars['ID']>;
   name?: InputMaybe<Scalars['String']>;
-};
-
-export type AddBannerInput = {
-  image: Scalars['String'];
-  title: Scalars['String'];
 };
 
 export type AddBookCategoryInput = {
@@ -345,7 +345,6 @@ export type ResolversTypes = {
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']>;
-  addBannerInput: AddBannerInput;
   addBookCategoryInput: AddBookCategoryInput;
   addBookInput: AddBookInput;
   authRole: AuthRole;
@@ -372,7 +371,6 @@ export type ResolversParentTypes = {
   Mutation: {};
   Query: {};
   String: Scalars['String'];
-  addBannerInput: AddBannerInput;
   addBookCategoryInput: AddBookCategoryInput;
   addBookInput: AddBookInput;
   deleteBook: DeleteBook;
@@ -395,7 +393,6 @@ export type BannerResolvers<ContextType = TGraphqlCtx, ParentType extends Resolv
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   image?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   publicId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -455,9 +452,10 @@ export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 }
 
 export type MutationResolvers<ContextType = TGraphqlCtx, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  addBanner?: Resolver<Maybe<ResolversTypes['Banner']>, ParentType, ContextType, RequireFields<MutationAddBannerArgs, 'data'>>;
+  addBanner?: Resolver<Maybe<ResolversTypes['Banner']>, ParentType, ContextType, RequireFields<MutationAddBannerArgs, 'imageBase64'>>;
   addBook?: Resolver<Maybe<ResolversTypes['Book']>, ParentType, ContextType, RequireFields<MutationAddBookArgs, 'data'>>;
   addBookCategory?: Resolver<Maybe<ResolversTypes['BookCategory']>, ParentType, ContextType, RequireFields<MutationAddBookCategoryArgs, 'data'>>;
+  deleteBanner?: Resolver<Maybe<ResolversTypes['Banner']>, ParentType, ContextType, RequireFields<MutationDeleteBannerArgs, 'bannerId'>>;
   deleteBook?: Resolver<Maybe<ResolversTypes['Book']>, ParentType, ContextType, RequireFields<MutationDeleteBookArgs, 'bookId'>>;
   deleteBookCategory?: Resolver<Maybe<ResolversTypes['BookCategory']>, ParentType, ContextType, RequireFields<MutationDeleteBookCategoryArgs, 'categoryId'>>;
   login?: Resolver<Maybe<ResolversTypes['loginData']>, ParentType, ContextType, RequireFields<MutationLoginArgs, 'password' | 'username'>>;
