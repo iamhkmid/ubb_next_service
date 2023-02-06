@@ -17,7 +17,7 @@ export const Mutation: MutationResolvers = {
     if (bufferFile.byteLength > limit) throw new GraphQLError(`Max file size ${limit / 1024}`, { extensions: { code: 'BAD_REQUEST' } })
     if (!fileTypes.includes(file.substring(file.indexOf("data:") + "data:".length, file.lastIndexOf(";base64")))) throw new GraphQLError("Invalid file type", { extensions: { code: 'BAD_REQUEST' } })
 
-    const image = await cloudinary().uploader.upload(file, { folder: "ubb_press/books" })
+    const image = await cloudinary().uploader.upload(file, { folder: "ubb_press/banners" })
 
     return await db.banner.create({
       data: {
