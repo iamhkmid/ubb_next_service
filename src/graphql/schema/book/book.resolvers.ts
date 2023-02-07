@@ -1,17 +1,20 @@
 import { BookResolvers, MutationResolvers, QueryResolvers } from "../../../types/graphql";
-import { stringPath } from "./utils";
+import { sortBookBy, stringPath } from "./utils";
 
 export const Query: QueryResolvers = {
-  books: async (_, { filter }, { db }) => {
-    const categoryIDs = filter?.categoryIds as string[] | undefined
+  books: async (_, { options }, { db }) => {
+    const categoryIDs = options?.categoryIds as string[] | undefined
+
     const books = await db.book.findMany({
       where: {
         categoryIDs: categoryIDs ? { hasEvery: categoryIDs } : undefined,
         price: {
-          gte: filter?.minAmount || undefined,
-          lte: filter?.maxAmount || undefined
-        }
-      }
+          gte: options?.minAmount || undefined,
+          lte: options?.maxAmount || undefined
+        },
+      },
+      take: options?.take || undefined,
+      orderBy: sortBookBy(options?.sortBy!)
     })
     return books
   },

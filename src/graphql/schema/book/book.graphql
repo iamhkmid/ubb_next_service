@@ -1,5 +1,5 @@
 type Query {
-  books(filter: filterBooksInput): [Book]
+  books(options: queryBookOptionsInput): [Book]
   book(bookId: ID, slug: ID): Book
   bookCategory(categoryId: ID!): BookCategory
   bookCategories: [BookCategory] 
@@ -14,10 +14,17 @@ type Mutation {
   deleteBookCategory(categoryId: ID!): BookCategory @auth(requires: ADMIN)
 }
 
-input filterBooksInput {
+input queryBookOptionsInput {
   categoryIds: [String]
   minAmount: Int
   maxAmount: Int
+  take: Int
+  cursor: String
+  sortBy: EnumSortBookBy
+}
+
+enum EnumSortBookBy {
+  NEW
 }
 
 input addBookInput {

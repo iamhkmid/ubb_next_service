@@ -75,6 +75,10 @@ export type Contact = {
   url?: Maybe<Scalars['String']>;
 };
 
+export enum EnumSortBookBy {
+  New = 'NEW'
+}
+
 export type Mutation = {
   __typename?: 'Mutation';
   addBanner?: Maybe<Banner>;
@@ -170,7 +174,7 @@ export type QueryBookCategoryArgs = {
 
 
 export type QueryBooksArgs = {
-  filter?: InputMaybe<FilterBooksInput>;
+  options?: InputMaybe<QueryBookOptionsInput>;
 };
 
 
@@ -219,12 +223,6 @@ export type DeleteBook = {
   updatedAt?: Maybe<Scalars['Date']>;
 };
 
-export type FilterBooksInput = {
-  categoryIds?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  maxAmount?: InputMaybe<Scalars['Int']>;
-  minAmount?: InputMaybe<Scalars['Int']>;
-};
-
 export type LoginData = {
   __typename?: 'loginData';
   message?: Maybe<Scalars['String']>;
@@ -236,6 +234,15 @@ export type LoginUserData = {
   fullName?: Maybe<Scalars['String']>;
   role?: Maybe<Scalars['String']>;
   username?: Maybe<Scalars['String']>;
+};
+
+export type QueryBookOptionsInput = {
+  categoryIds?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  cursor?: InputMaybe<Scalars['String']>;
+  maxAmount?: InputMaybe<Scalars['Int']>;
+  minAmount?: InputMaybe<Scalars['Int']>;
+  sortBy?: InputMaybe<EnumSortBookBy>;
+  take?: InputMaybe<Scalars['Int']>;
 };
 
 export type UpdateBookCategoryInput = {
@@ -340,6 +347,7 @@ export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   Contact: ResolverTypeWrapper<Contact>;
   Date: ResolverTypeWrapper<Scalars['Date']>;
+  EnumSortBookBy: EnumSortBookBy;
   ID: ResolverTypeWrapper<Scalars['ID']>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   Mutation: ResolverTypeWrapper<{}>;
@@ -349,9 +357,9 @@ export type ResolversTypes = {
   addBookInput: AddBookInput;
   authRole: AuthRole;
   deleteBook: ResolverTypeWrapper<DeleteBook>;
-  filterBooksInput: FilterBooksInput;
   loginData: ResolverTypeWrapper<LoginData>;
   loginUserData: ResolverTypeWrapper<LoginUserData>;
+  queryBookOptionsInput: QueryBookOptionsInput;
   updateBookCategoryInput: UpdateBookCategoryInput;
   updateBookInput: UpdateBookInput;
   updateContactInput: UpdateContactInput;
@@ -374,9 +382,9 @@ export type ResolversParentTypes = {
   addBookCategoryInput: AddBookCategoryInput;
   addBookInput: AddBookInput;
   deleteBook: DeleteBook;
-  filterBooksInput: FilterBooksInput;
   loginData: LoginData;
   loginUserData: LoginUserData;
+  queryBookOptionsInput: QueryBookOptionsInput;
   updateBookCategoryInput: UpdateBookCategoryInput;
   updateBookInput: UpdateBookInput;
   updateContactInput: UpdateContactInput;
