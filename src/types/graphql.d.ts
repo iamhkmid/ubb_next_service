@@ -241,6 +241,7 @@ export type QueryBookOptionsInput = {
   cursor?: InputMaybe<Scalars['String']>;
   maxAmount?: InputMaybe<Scalars['Int']>;
   minAmount?: InputMaybe<Scalars['Int']>;
+  search?: InputMaybe<Scalars['String']>;
   sortBy?: InputMaybe<EnumSortBookBy>;
   take?: InputMaybe<Scalars['Int']>;
 };

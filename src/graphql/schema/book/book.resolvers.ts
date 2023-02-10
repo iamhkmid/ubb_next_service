@@ -12,7 +12,12 @@ export const Query: QueryResolvers = {
           gte: options?.minAmount || undefined,
           lte: options?.maxAmount || undefined
         },
+        OR: options?.search ? [
+          { title: { contains: options?.search, mode: "insensitive" } },
+          { authorName: { contains: options?.search, mode: "insensitive" } }
+        ] : undefined
       },
+      cursor: options?.cursor ? { slug: options?.cursor } : undefined,
       take: options?.take || undefined,
       orderBy: sortBookBy(options?.sortBy!)
     })
