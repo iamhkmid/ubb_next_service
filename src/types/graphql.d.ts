@@ -65,19 +65,30 @@ export type BookImage = {
   url?: Maybe<Scalars['String']>;
 };
 
-export type Contact = {
-  __typename?: 'Contact';
-  createdAt?: Maybe<Scalars['Date']>;
-  id?: Maybe<Scalars['ID']>;
-  image?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  updatedAt?: Maybe<Scalars['Date']>;
-  url?: Maybe<Scalars['String']>;
-};
-
 export enum EnumSortBookBy {
   New = 'NEW'
 }
+
+export type FooterInfo = {
+  __typename?: 'FooterInfo';
+  Group?: Maybe<FooterInfoGroup>;
+  createdAt?: Maybe<Scalars['Date']>;
+  id?: Maybe<Scalars['ID']>;
+  image?: Maybe<Scalars['String']>;
+  label?: Maybe<Scalars['String']>;
+  publicId?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['Date']>;
+  value?: Maybe<Scalars['String']>;
+};
+
+export type FooterInfoGroup = {
+  __typename?: 'FooterInfoGroup';
+  FooterInfos?: Maybe<Array<Maybe<FooterInfo>>>;
+  createdAt?: Maybe<Scalars['Date']>;
+  id?: Maybe<Scalars['ID']>;
+  name?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['Date']>;
+};
 
 export type Mutation = {
   __typename?: 'Mutation';
@@ -90,8 +101,7 @@ export type Mutation = {
   login?: Maybe<LoginData>;
   updateBook?: Maybe<Book>;
   updateBookCategory?: Maybe<BookCategory>;
-  updateContact?: Maybe<Contact>;
-  updateContacts?: Maybe<Array<Maybe<Contact>>>;
+  updateFooterInfo?: Maybe<FooterInfo>;
 };
 
 
@@ -141,13 +151,8 @@ export type MutationUpdateBookCategoryArgs = {
 };
 
 
-export type MutationUpdateContactArgs = {
-  data: UpdateContactInput;
-};
-
-
-export type MutationUpdateContactsArgs = {
-  data: Array<InputMaybe<UpdateContactInput>>;
+export type MutationUpdateFooterInfoArgs = {
+  data: UpdateFooterInfoInput;
 };
 
 export type Query = {
@@ -157,8 +162,7 @@ export type Query = {
   bookCategories?: Maybe<Array<Maybe<BookCategory>>>;
   bookCategory?: Maybe<BookCategory>;
   books?: Maybe<Array<Maybe<Book>>>;
-  contact?: Maybe<Contact>;
-  contacts?: Maybe<Array<Maybe<Contact>>>;
+  footerInfo?: Maybe<Array<Maybe<FooterInfo>>>;
 };
 
 
@@ -178,9 +182,10 @@ export type QueryBooksArgs = {
 };
 
 
-export type QueryContactArgs = {
-  contactId?: InputMaybe<Scalars['ID']>;
-  name?: InputMaybe<Scalars['String']>;
+export type QueryFooterInfoArgs = {
+  footerInfoId?: InputMaybe<Scalars['ID']>;
+  group?: InputMaybe<Scalars['String']>;
+  label?: InputMaybe<Scalars['String']>;
 };
 
 export type AddBookCategoryInput = {
@@ -266,10 +271,10 @@ export type UpdateBookInput = {
   title?: InputMaybe<Scalars['String']>;
 };
 
-export type UpdateContactInput = {
-  contactId: Scalars['ID'];
-  name?: InputMaybe<Scalars['String']>;
-  url?: InputMaybe<Scalars['String']>;
+export type UpdateFooterInfoInput = {
+  footerInfoId: Scalars['ID'];
+  label?: InputMaybe<Scalars['String']>;
+  value?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -346,9 +351,10 @@ export type ResolversTypes = {
   BookCategory: ResolverTypeWrapper<BookCategory>;
   BookImage: ResolverTypeWrapper<BookImage>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
-  Contact: ResolverTypeWrapper<Contact>;
   Date: ResolverTypeWrapper<Scalars['Date']>;
   EnumSortBookBy: EnumSortBookBy;
+  FooterInfo: ResolverTypeWrapper<FooterInfo>;
+  FooterInfoGroup: ResolverTypeWrapper<FooterInfoGroup>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   Mutation: ResolverTypeWrapper<{}>;
@@ -363,7 +369,7 @@ export type ResolversTypes = {
   queryBookOptionsInput: QueryBookOptionsInput;
   updateBookCategoryInput: UpdateBookCategoryInput;
   updateBookInput: UpdateBookInput;
-  updateContactInput: UpdateContactInput;
+  updateFooterInfoInput: UpdateFooterInfoInput;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -373,8 +379,9 @@ export type ResolversParentTypes = {
   BookCategory: BookCategory;
   BookImage: BookImage;
   Boolean: Scalars['Boolean'];
-  Contact: Contact;
   Date: Scalars['Date'];
+  FooterInfo: FooterInfo;
+  FooterInfoGroup: FooterInfoGroup;
   ID: Scalars['ID'];
   Int: Scalars['Int'];
   Mutation: {};
@@ -388,7 +395,7 @@ export type ResolversParentTypes = {
   queryBookOptionsInput: QueryBookOptionsInput;
   updateBookCategoryInput: UpdateBookCategoryInput;
   updateBookInput: UpdateBookInput;
-  updateContactInput: UpdateContactInput;
+  updateFooterInfoInput: UpdateFooterInfoInput;
 };
 
 export type AuthDirectiveArgs = {
@@ -446,19 +453,30 @@ export type BookImageResolvers<ContextType = TGraphqlCtx, ParentType extends Res
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type ContactResolvers<ContextType = TGraphqlCtx, ParentType extends ResolversParentTypes['Contact'] = ResolversParentTypes['Contact']> = {
-  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
-  id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
-  image?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
-  url?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
 export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
   name: 'Date';
 }
+
+export type FooterInfoResolvers<ContextType = TGraphqlCtx, ParentType extends ResolversParentTypes['FooterInfo'] = ResolversParentTypes['FooterInfo']> = {
+  Group?: Resolver<Maybe<ResolversTypes['FooterInfoGroup']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
+  id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  image?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  label?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  publicId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
+  value?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type FooterInfoGroupResolvers<ContextType = TGraphqlCtx, ParentType extends ResolversParentTypes['FooterInfoGroup'] = ResolversParentTypes['FooterInfoGroup']> = {
+  FooterInfos?: Resolver<Maybe<Array<Maybe<ResolversTypes['FooterInfo']>>>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
+  id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
 
 export type MutationResolvers<ContextType = TGraphqlCtx, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   addBanner?: Resolver<Maybe<ResolversTypes['Banner']>, ParentType, ContextType, RequireFields<MutationAddBannerArgs, 'imageBase64'>>;
@@ -470,8 +488,7 @@ export type MutationResolvers<ContextType = TGraphqlCtx, ParentType extends Reso
   login?: Resolver<Maybe<ResolversTypes['loginData']>, ParentType, ContextType, RequireFields<MutationLoginArgs, 'password' | 'username'>>;
   updateBook?: Resolver<Maybe<ResolversTypes['Book']>, ParentType, ContextType, RequireFields<MutationUpdateBookArgs, 'data'>>;
   updateBookCategory?: Resolver<Maybe<ResolversTypes['BookCategory']>, ParentType, ContextType, RequireFields<MutationUpdateBookCategoryArgs, 'data'>>;
-  updateContact?: Resolver<Maybe<ResolversTypes['Contact']>, ParentType, ContextType, RequireFields<MutationUpdateContactArgs, 'data'>>;
-  updateContacts?: Resolver<Maybe<Array<Maybe<ResolversTypes['Contact']>>>, ParentType, ContextType, RequireFields<MutationUpdateContactsArgs, 'data'>>;
+  updateFooterInfo?: Resolver<Maybe<ResolversTypes['FooterInfo']>, ParentType, ContextType, RequireFields<MutationUpdateFooterInfoArgs, 'data'>>;
 };
 
 export type QueryResolvers<ContextType = TGraphqlCtx, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
@@ -480,8 +497,7 @@ export type QueryResolvers<ContextType = TGraphqlCtx, ParentType extends Resolve
   bookCategories?: Resolver<Maybe<Array<Maybe<ResolversTypes['BookCategory']>>>, ParentType, ContextType>;
   bookCategory?: Resolver<Maybe<ResolversTypes['BookCategory']>, ParentType, ContextType, RequireFields<QueryBookCategoryArgs, 'categoryId'>>;
   books?: Resolver<Maybe<Array<Maybe<ResolversTypes['Book']>>>, ParentType, ContextType, Partial<QueryBooksArgs>>;
-  contact?: Resolver<Maybe<ResolversTypes['Contact']>, ParentType, ContextType, Partial<QueryContactArgs>>;
-  contacts?: Resolver<Maybe<Array<Maybe<ResolversTypes['Contact']>>>, ParentType, ContextType>;
+  footerInfo?: Resolver<Maybe<Array<Maybe<ResolversTypes['FooterInfo']>>>, ParentType, ContextType, Partial<QueryFooterInfoArgs>>;
 };
 
 export type DeleteBookResolvers<ContextType = TGraphqlCtx, ParentType extends ResolversParentTypes['deleteBook'] = ResolversParentTypes['deleteBook']> = {
@@ -519,8 +535,9 @@ export type Resolvers<ContextType = TGraphqlCtx> = {
   Book?: BookResolvers<ContextType>;
   BookCategory?: BookCategoryResolvers<ContextType>;
   BookImage?: BookImageResolvers<ContextType>;
-  Contact?: ContactResolvers<ContextType>;
   Date?: GraphQLScalarType;
+  FooterInfo?: FooterInfoResolvers<ContextType>;
+  FooterInfoGroup?: FooterInfoGroupResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   deleteBook?: DeleteBookResolvers<ContextType>;

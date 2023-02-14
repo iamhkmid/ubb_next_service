@@ -81,12 +81,22 @@ model Banner {
   updatedAt DateTime @updatedAt
 }
 
-model Contact {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  name      String   @unique
-  url       String
-  image     String
-  publicId  String   @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model FooterInfo {
+  id        String           @id @default(auto()) @map("_id") @db.ObjectId
+  label     String           @unique
+  value     String
+  image     String?
+  publicId  String?          
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+  Group     FooterInfoGroup? @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  groupId   String?          @db.ObjectId
+}
+
+model FooterInfoGroup {
+  id         String       @id @default(auto()) @map("_id") @db.ObjectId
+  name       String       @unique
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  FooterInfos FooterInfo[]
 }

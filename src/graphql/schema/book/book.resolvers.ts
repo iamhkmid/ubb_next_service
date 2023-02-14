@@ -99,6 +99,6 @@ export const Mutation: MutationResolvers = {
 }
 
 export const Book: BookResolvers = {
-  Images: async ({ id }, __, { db }) => db.bookImage.findMany({ where: { bookId: id! } }),
-  Categories: async ({ id }, __, { db }) => db.category.findMany({ where: { Books: { some: { id: id! } } } }),
+  Images: async ({ id }, __, { db }) => await db.bookImage.findMany({ where: { bookId: id! } }),
+  Categories: async ({ id }, __, { db }) => await db.category.findMany({ where: { Books: { some: { id: id! } } } }),
 };

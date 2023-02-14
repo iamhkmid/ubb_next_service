@@ -1,0 +1,32 @@
+type Query {
+  footerInfo(footerInfoId: ID, group: String, label: String): [FooterInfo]
+}
+
+type Mutation {
+  updateFooterInfo(data: updateFooterInfoInput!): FooterInfo @auth(requires: ADMIN)
+}
+
+input updateFooterInfoInput {
+  footerInfoId: ID!
+  label: String
+  value: String
+}
+
+type FooterInfo {
+  id: ID
+  label: String
+  value: String
+  image: String
+  publicId: String
+  Group: FooterInfoGroup
+  createdAt: Date
+  updatedAt: Date
+}
+
+type FooterInfoGroup {
+  id: ID
+  name: String
+  FooterInfos: [FooterInfo]
+  createdAt: Date
+  updatedAt: Date
+}
