@@ -1,5 +1,5 @@
 {
-  "name": "ubb_next_be",
+  "name": "ubb_next_service",
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
