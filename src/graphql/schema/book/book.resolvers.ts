@@ -7,7 +7,9 @@ export const Query: QueryResolvers = {
 
     const books = await db.book.findMany({
       where: {
-        categoryIDs: categoryIDs ? { hasEvery: categoryIDs } : undefined,
+        AND: categoryIDs ?
+          categoryIDs.map((catId) => ({ Categories: { every: { id: catId } } }))
+          : undefined,
         price: {
           gte: options?.minAmount || undefined,
           lte: options?.maxAmount || undefined

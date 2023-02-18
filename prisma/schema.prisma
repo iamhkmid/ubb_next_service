@@ -3,12 +3,12 @@ generator client {
 }
 
 datasource db {
-  provider = "mongodb"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model User {
-  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  id        String     @id @default(cuid())
   username  String     @unique
   password  String
   fullName  String
@@ -22,18 +22,18 @@ model User {
 }
 
 model UserImage {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  id        String   @id @default(cuid())
   publicId  String
   url       String
   secureUrl String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    String   @unique @db.ObjectId
+  userId    String   @unique
 }
 
 model Book {
-  id              String      @id @default(auto()) @map("_id") @db.ObjectId
+  id              String      @id @default(cuid())
   title           String
   authorName      String
   price           Int?
@@ -47,34 +47,33 @@ model Book {
   slug            String      @unique
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
-  categoryIDs     String[]    @db.ObjectId
-  Categories      Category[]  @relation(fields: [categoryIDs], references: [id])
+  Categories      Category[]
   Images          BookImage[]
 }
 
 model BookImage {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  id        String   @id @default(cuid())
   publicId  String   @unique
   url       String
   secureUrl String
   type      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  Book      Book     @relation(fields: [bookId], references: [id], onDelete: Cascade)
-  bookId    String   @db.ObjectId
+  bookId    String?
+  Book      Book?    @relation(fields: [bookSlug], references: [slug], onDelete: Cascade)
+  bookSlug  String?
 }
 
 model Category {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  id        String   @id @default(cuid())
   name      String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  bookIDs   String[] @db.ObjectId
-  Books     Book[]   @relation(fields: [bookIDs], references: [id])
+  Books     Book[]
 }
 
 model Banner {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  id        String   @id @default(cuid())
   publicId  String   @unique
   image     String
   createdAt DateTime @default(now())
@@ -82,21 +81,21 @@ model Banner {
 }
 
 model FooterInfo {
-  id        String           @id @default(auto()) @map("_id") @db.ObjectId
+  id        String           @id @default(cuid())
   label     String           @unique
   value     String
   image     String?
-  publicId  String?          
+  publicId  String?
   createdAt DateTime         @default(now())
   updatedAt DateTime         @updatedAt
   Group     FooterInfoGroup? @relation(fields: [groupId], references: [id], onDelete: Cascade)
-  groupId   String?          @db.ObjectId
+  groupId   String?
 }
 
 model FooterInfoGroup {
-  id         String       @id @default(auto()) @map("_id") @db.ObjectId
-  name       String       @unique
-  createdAt  DateTime     @default(now())
-  updatedAt  DateTime     @updatedAt
+  id          String       @id @default(cuid())
+  name        String       @unique
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
   FooterInfos FooterInfo[]
 }
