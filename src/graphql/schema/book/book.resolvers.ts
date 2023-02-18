@@ -4,11 +4,14 @@ import { sortBookBy, stringPath } from "./utils";
 export const Query: QueryResolvers = {
   books: async (_, { options }, { db }) => {
     const categoryIDs = options?.categoryIds as string[] | undefined
-
+    
     const books = await db.book.findMany({
       where: {
         AND: categoryIDs ?
-          categoryIDs.map((catId) => ({ Categories: { every: { id: catId } } }))
+          {
+            AND:
+              categoryIDs.map((catId) => ({ Categories: { some: { id: catId } } }))
+          }
           : undefined,
         price: {
           gte: options?.minAmount || undefined,
