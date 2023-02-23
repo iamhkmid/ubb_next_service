@@ -15,7 +15,7 @@ const main = async () => {
   const app: express.Application = express();
 
   app.use("/uploads",
-    express.static(path.join(process.cwd(), "/../uploads/ubbpress"), {
+    express.static(path.join(process.cwd(), "/../uploads"), {
       fallthrough: true,
       index: false,
       redirect: false,
