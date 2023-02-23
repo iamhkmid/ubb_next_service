@@ -2,15 +2,17 @@ type Query {
   books(options: queryBookOptionsInput): [Book]
   book(bookId: ID, slug: ID): Book
   bookCategory(categoryId: ID!): BookCategory
-  bookCategories: [BookCategory] 
+  bookCategories: [BookCategory]
 }
 
 type Mutation {
-  addBook(data: addBookInput!): Book @auth(requires: ADMIN)
-  updateBook(data: updateBookInput!): Book @auth(requires: ADMIN)
+  addBook(data: addBookInput!, cover: String!): Book @auth(requires: ADMIN)
+  updateBook(data: updateBookInput!, cover: String): Book @auth(requires: ADMIN)
   deleteBook(bookId: ID!): Book @auth(requires: ADMIN)
-  addBookCategory(data: addBookCategoryInput!): BookCategory @auth(requires: ADMIN)
-  updateBookCategory (data: updateBookCategoryInput!): BookCategory @auth(requires: ADMIN)
+  addBookCategory(data: addBookCategoryInput!): BookCategory
+    @auth(requires: ADMIN)
+  updateBookCategory(data: updateBookCategoryInput!): BookCategory
+    @auth(requires: ADMIN)
   deleteBookCategory(categoryId: ID!): BookCategory @auth(requires: ADMIN)
 }
 
@@ -88,6 +90,7 @@ type Book {
   publicationYear: Int
   isbn: String
   slug: String
+  imageDirectory: String
   createdAt: Date
   updatedAt: Date
 }
@@ -102,10 +105,8 @@ type BookCategory {
 
 type BookImage {
   id: String
-  publicId: String
   type: String
   url: String
-  secureUrl: String
   createdAt: Date
   updatedAt: Date
 }

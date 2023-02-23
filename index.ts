@@ -2,22 +2,30 @@ import express from "express";
 import cors from "cors";
 import * as http from "http";
 import altairRoute from "./src/routes/altairRoute";
-import uploadRoutes from "./src/routes/uploadRoutes";
 import graphqlServer from "./src/graphql"
 import * as dotenv from 'dotenv'
+import path from "path"
 
-dotenv.config()
+dotenv.config({ path: `.env.${process.env.NODE_ENV}` })
+
 const PORT = parseInt(process.env.PORT || "3001");
 export const corsOptions = { origin: "*", exposedHeaders: ["Authorization"] };
 
 const main = async () => {
   const app: express.Application = express();
 
+  app.use("/uploads",
+    express.static(path.join(process.cwd(), "/../uploads/ubbpress"), {
+      fallthrough: true,
+      index: false,
+      redirect: false,
+    })
+  );
+
   app.use(express.json({ limit: 1.2 * 1024 * 1024 }));
   app.use(cors(corsOptions));
   app.use(express.urlencoded({ extended: true }));
 
-  app.use("/upload", uploadRoutes);
   app.use("/altair", altairRoute);
 
   const httpServer = http.createServer(app);

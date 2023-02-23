@@ -57,9 +57,8 @@ export type BookCategory = {
 export type BookImage = {
   __typename?: 'BookImage';
   createdAt?: Maybe<Scalars['Date']>;
+  dirName?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['String']>;
-  publicId?: Maybe<Scalars['String']>;
-  secureUrl?: Maybe<Scalars['String']>;
   type?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['Date']>;
   url?: Maybe<Scalars['String']>;
@@ -111,6 +110,7 @@ export type MutationAddBannerArgs = {
 
 
 export type MutationAddBookArgs = {
+  cover: Scalars['String'];
   data: AddBookInput;
 };
 
@@ -142,6 +142,7 @@ export type MutationLoginArgs = {
 
 
 export type MutationUpdateBookArgs = {
+  cover?: InputMaybe<Scalars['String']>;
   data: UpdateBookInput;
 };
 
@@ -444,9 +445,8 @@ export type BookCategoryResolvers<ContextType = TGraphqlCtx, ParentType extends 
 
 export type BookImageResolvers<ContextType = TGraphqlCtx, ParentType extends ResolversParentTypes['BookImage'] = ResolversParentTypes['BookImage']> = {
   createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
+  dirName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  publicId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  secureUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   type?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   url?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -480,7 +480,7 @@ export type FooterInfoGroupResolvers<ContextType = TGraphqlCtx, ParentType exten
 
 export type MutationResolvers<ContextType = TGraphqlCtx, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   addBanner?: Resolver<Maybe<ResolversTypes['Banner']>, ParentType, ContextType, RequireFields<MutationAddBannerArgs, 'imageBase64'>>;
-  addBook?: Resolver<Maybe<ResolversTypes['Book']>, ParentType, ContextType, RequireFields<MutationAddBookArgs, 'data'>>;
+  addBook?: Resolver<Maybe<ResolversTypes['Book']>, ParentType, ContextType, RequireFields<MutationAddBookArgs, 'cover' | 'data'>>;
   addBookCategory?: Resolver<Maybe<ResolversTypes['BookCategory']>, ParentType, ContextType, RequireFields<MutationAddBookCategoryArgs, 'data'>>;
   deleteBanner?: Resolver<Maybe<ResolversTypes['Banner']>, ParentType, ContextType, RequireFields<MutationDeleteBannerArgs, 'bannerId'>>;
   deleteBook?: Resolver<Maybe<ResolversTypes['Book']>, ParentType, ContextType, RequireFields<MutationDeleteBookArgs, 'bookId'>>;

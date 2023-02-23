@@ -2,6 +2,10 @@ import { Category, Prisma, PrismaClient } from '@prisma/client'
 import bcrypt from "bcrypt"
 import { stringPath } from '../src/graphql/schema/book/utils';
 import { backupBanner, backupBookImgCat, backupFooter } from './backup';
+import path from "path"
+import https from "https"
+import fs from "fs"
+import util from "util"
 
 const prisma = new PrismaClient()
 
@@ -14,6 +18,16 @@ type TBookImage = {
   createdAt: string;
   updatedAt: string;
 }[]
+
+export const makeDir = async (dirLoc: string) => {
+  const fsMkdir = util.promisify(fs.mkdir);
+  const dir = path.join(process.cwd(), dirLoc);
+  if (!fs.existsSync(dir))
+    await fsMkdir(dir, { recursive: true }).catch((err) => {
+      throw new Error("Failed make directory");
+    });
+  return { pictureDir: dirLoc };
+};
 
 async function main() {
 
@@ -30,20 +44,48 @@ async function main() {
     },
   ]
 
-  const bookData: Prisma.BookCreateInput[] = backupBookImgCat.data.books.map((book) => ({
-    ...book,
-    Images: { connectOrCreate: book.Images.map((img) => ({ where: { id: img.id }, create: img })) },
-    Categories: { connectOrCreate: book.Categories.map((cat) => ({ where: { id: cat.id }, create: cat })) }
-  }))
+  const bookData: Prisma.BookCreateInput[] = backupBookImgCat.data.books.map((book) => {
+    const cover = book.Images.find((val) => val.type === "COVER")
+    let imageDirectory = `/../uploads/ubbpress/images/books/${book.title}`
+    if (cover) {
+      const filename = cover.publicId.split("/")[2]
+      imageDirectory = `/../uploads/ubbpress/images/books/${filename}`
+    }
+    return {
+      ...book,
+      imageDirectory,
+      Images: {
+        connectOrCreate: book.Images.map((img) => {
+          const { id, createdAt, updatedAt, type, publicId } = img
+          const filename = publicId.split("/")[2]
+          const dirName = `/uploads/images/books/${filename}`
+          const pathName = path.format({ dir: dirName, base: `${filename}.jpg` })
 
-  const bannerData: Prisma.BannerCreateInput[] = backupBanner.data.banners
+          return { where: { id: img.id }, create: { id, createdAt, updatedAt, type, path: pathName } }
+        })
+      },
+      Categories: { connectOrCreate: book.Categories.map((cat) => ({ where: { id: cat.id }, create: cat })) }
+    }
+  })
 
-  
-  const footerData: Prisma.FooterInfoCreateInput[] = backupFooter.data.footerInfo.map((footer) => ({
-    ...footer,
-    Group: { connectOrCreate: { where: { id: footer.Group.id }, create: footer.Group } },
-  }))
+  const bannerData: Prisma.BannerCreateInput[] = backupBanner.data.banners.map((banner) => {
+    const { id, publicId, createdAt, updatedAt } = banner
+    const filename = publicId.split("/")[2]
+    const image = path.format({ dir: "/uploads/images/banner", base: `${filename}.svg` })
+    return { id, createdAt, updatedAt, image }
+  })
 
+
+  const footerData: Prisma.FooterInfoCreateInput[] = backupFooter.data.footerInfo.map((footer) => {
+    const { publicId } = footer
+    const filename = publicId!.split("/")[2]
+    const image = path.format({ dir: "/uploads/images/contact", base: `${filename}.jpg` })
+    return {
+      ...footer,
+      image,
+      Group: { connectOrCreate: { where: { id: footer.Group.id }, create: footer.Group } },
+    }
+  })
 
   console.log(`Start seeding ...`)
   for (const u of userData) {
