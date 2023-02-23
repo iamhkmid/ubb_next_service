@@ -71,7 +71,7 @@ async function main() {
   const bannerData: Prisma.BannerCreateInput[] = backupBanner.data.banners.map((banner) => {
     const { id, publicId, createdAt, updatedAt } = banner
     const filename = publicId.split("/")[2]
-    const image = path.format({ dir: "/uploads/images/banner", base: `${filename}.svg` })
+    const image = path.format({ dir: "/uploads/images/banner", base: `${filename}.jpg` })
     return { id, createdAt, updatedAt, image }
   })
 
