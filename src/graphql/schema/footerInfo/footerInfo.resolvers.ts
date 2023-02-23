@@ -7,11 +7,20 @@ export const Query: QueryResolvers = {
         where: { id: footerInfoId!, label: label! },
         include: { Group: true }
       })
-      return findFooterInfo ? [findFooterInfo] : []
+      return findFooterInfo ? [{ ...findFooterInfo, imageUrl: `${process.env.BASE_URL}${findFooterInfo.image}`.replace(/\\/g, '/') }] : []
     } else if (!!group) {
       const findGroup = await db.footerInfoGroup.findUnique({ where: { name: group }, select: { id: true, FooterInfos: { include: { Group: true } } } })
-      return findGroup?.FooterInfos || []
-    } else return await db.footerInfo.findMany({ include: { Group: true } })
+      return findGroup?.FooterInfos.map((footer) => {
+        const { image, ...rest } = footer
+        return { ...rest, imageUrl: `${process.env.BASE_URL}${footer.image}`.replace(/\\/g, '/') }
+      }) || []
+    } else {
+      const findGroup = await db.footerInfo.findMany({ include: { Group: true } })
+      return findGroup.map((footer) => {
+        const { image, ...rest } = footer
+        return { ...rest, imageUrl: `${process.env.BASE_URL}${footer.image}`.replace(/\\/g, '/') }
+      }) || []
+    }
   }
 };
 

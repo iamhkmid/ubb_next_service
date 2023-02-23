@@ -31,7 +31,7 @@ const migrateBook = async () => {
 
     const { secureUrl, publicId } = u
     const filename = publicId.split("/")[2]
-    const dirName = `/uploads/ubbpress/images/books/${filename}`
+    const dirName = `/uploads/images/books/${filename}`
     const ext = "jpg"
     const pathName = path.format({ dir: dirName, base: `${filename}.${ext}` })
     await makeDir(dirName)
@@ -64,7 +64,7 @@ const migrateBanner = async () => {
 
     const { image, publicId } = u
     const filename = publicId.split("/")[2]
-    const dirName = `/uploads/ubbpress/images/banner`
+    const dirName = `/uploads/images/banner`
     const ext = "jpg"
     const pathName = path.format({ dir: dirName, base: `${filename}.${ext}` })
     await makeDir(dirName)
@@ -99,7 +99,7 @@ const migrateFooter = async () => {
     const { image, publicId } = u
     if (image) {
       const filename = publicId!.split("/")[2]
-      const dirName = `/uploads/ubbpress/images/footer`
+      const dirName = `/uploads/images/footer`
       const ext = "svg"
       const pathName = path.format({ dir: dirName, base: `${filename}.${ext}` })
       await makeDir(dirName)

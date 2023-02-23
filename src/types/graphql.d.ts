@@ -20,7 +20,7 @@ export type Banner = {
   __typename?: 'Banner';
   createdAt?: Maybe<Scalars['Date']>;
   id?: Maybe<Scalars['ID']>;
-  image?: Maybe<Scalars['String']>;
+  imageUrl?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['Date']>;
 };
 
@@ -72,7 +72,7 @@ export type FooterInfo = {
   Group?: Maybe<FooterInfoGroup>;
   createdAt?: Maybe<Scalars['Date']>;
   id?: Maybe<Scalars['ID']>;
-  image?: Maybe<Scalars['String']>;
+  imageUrl?: Maybe<Scalars['String']>;
   label?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['Date']>;
   value?: Maybe<Scalars['String']>;
@@ -406,7 +406,7 @@ export type AuthDirectiveResolver<Result, Parent, ContextType = TGraphqlCtx, Arg
 export type BannerResolvers<ContextType = TGraphqlCtx, ParentType extends ResolversParentTypes['Banner'] = ResolversParentTypes['Banner']> = {
   createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
-  image?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  imageUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -458,7 +458,7 @@ export type FooterInfoResolvers<ContextType = TGraphqlCtx, ParentType extends Re
   Group?: Resolver<Maybe<ResolversTypes['FooterInfoGroup']>, ParentType, ContextType>;
   createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
-  image?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  imageUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   label?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   value?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;

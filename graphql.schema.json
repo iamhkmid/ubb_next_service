@@ -38,7 +38,7 @@
             "deprecationReason": null
           },
           {
-            "name": "image",
+            "name": "imageUrl",
             "description": null,
             "args": [],
             "type": {
@@ -515,7 +515,7 @@
             "deprecationReason": null
           },
           {
-            "name": "image",
+            "name": "imageUrl",
             "description": null,
             "args": [],
             "type": {

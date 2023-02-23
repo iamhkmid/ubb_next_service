@@ -7,7 +7,10 @@ import path from "path"
 
 export const Query: QueryResolvers = {
   banners: async (_, __, { db }) => {
-    return await db.banner.findMany()
+    return await (await db.banner.findMany()).map((banner) => {
+      const { image, ...rest } = banner
+      return { ...rest, imageUrl: `${process.env.BASE_URL}${banner.image}`.replace(/\\/g, '/') }
+    })
   }
 };
 
@@ -24,7 +27,7 @@ export const Mutation: MutationResolvers = {
         image: path,
       }
     })
-    return { ...banner, image: `${process.env.BASE_URL}${banner.image}` }
+    return { ...banner, imageUrl: `${process.env.BASE_URL}${banner.image}`.replace(/\\/g, '/') }
   },
   deleteBanner: async (_, { bannerId }, { db }) => {
     const deleteBanner = await db.banner.delete({ where: { id: bannerId } })

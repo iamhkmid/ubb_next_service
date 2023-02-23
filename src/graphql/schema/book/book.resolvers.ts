@@ -42,9 +42,6 @@ export const Query: QueryResolvers = {
 
 export const Mutation: MutationResolvers = {
   addBook: async (_, { data, cover }, { db }) => {
-
-    const filemime = mime.getType(cover);
-    console.log(filemime)
     const { dirName, path: pathname } = await saveImage({ fileName: stringPath(data.title), file: cover, type: "cover" })
       .catch(() => {
         throw new GraphQLError("Failed upload file", { extensions: { code: 'INTERNAL_SERVER_ERROR' } })
@@ -95,18 +92,19 @@ export const Mutation: MutationResolvers = {
     }).catch(() => {
       throw new GraphQLError("Database error", { extensions: { code: 'INTERNAL_SERVER_ERROR' } })
     })
+    const { Images, ...rest } = updateBook
     if (cover) {
       const { path } = await saveImage({ fileName: stringPath(updateBook.title), file: cover, type: "cover", dirName: updateBook.imageDirectory! })
         .catch(() => {
           throw new GraphQLError("Failed upload file", { extensions: { code: 'INTERNAL_SERVER_ERROR' } })
         })
       await db.bookImage.upsert({
-        where: { id: updateBook.Images.find((val) => val.type === "COVER")?.id || undefined },
+        where: { id: Images?.find((val) => val.type === "COVER")?.id || undefined },
         create: { path, type: "COVER", Book: { connect: { id: updateBook.id } } },
         update: { path }
       })
     }
-    return updateBook
+    return rest
   },
   deleteBook: async (_, { bookId }, { db }) => {
     const deleteBook = await db.book.delete({ where: { id: bookId } })
@@ -134,6 +132,12 @@ export const Mutation: MutationResolvers = {
 }
 
 export const Book: BookResolvers = {
-  Images: async ({ id }, __, { db }) => await db.bookImage.findMany({ where: { bookId: id! } }),
+  Images: async ({ id }, __, { db }) => {
+    const images = await db.bookImage.findMany({ where: { bookId: id! } })
+    return images.map((img) => {
+      const { path, ...rest } = img
+      return { ...rest, url: `${process.env.BASE_URL}${path}`.replace(/\\/g, '/') }
+    })
+  },
   Categories: async ({ id }, __, { db }) => await db.category.findMany({ where: { Books: { some: { id: id! } } } }),
 };
