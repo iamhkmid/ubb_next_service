@@ -69,7 +69,6 @@ export const Mutation: MutationResolvers = {
         }
       },
     }).catch((error) => {
-      console.log(error)
       if (fs.existsSync(path.join(process.cwd(), dirName)))
         fs.rmSync(path.join(process.cwd(), dirName), { recursive: true })
       throw new GraphQLError("Database error", { extensions: { code: 'INTERNAL_SERVER_ERROR' } })

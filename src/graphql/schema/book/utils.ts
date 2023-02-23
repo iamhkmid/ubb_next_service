@@ -24,10 +24,10 @@ export const saveImage: TSaveImage = async ({ fileName, file, type, dirName }) =
   const currFileType = file.split(';')[0].split('/')[1]
   const fileTypes = ["image/jpeg", "image/png"]
   const imageSizeLimit = Number(process.env.IMAGE_SIZE_LIMIT)
-  const filePath = `/images/books/${fileName}-${new Date().getTime()}`
+  const filePath = `/uploads/images/books/${fileName}-${new Date().getTime()}`
   const fileType = currFileType === "jpeg" ? "jpg" : currFileType
   const fileBase = `${type}-${new Date().getTime()}-${fileName}.${fileType}`
-  const writeDir = dirName ? path.join(process.cwd(), dirName, fileBase) : path.join(process.cwd(), "/../uploads/ubbpress", filePath, fileBase)
+  const writeDir = dirName ? path.join(process.cwd(), dirName, fileBase) : path.join(process.cwd(), "/../", filePath, fileBase)
 
   if (bufferFile.byteLength > imageSizeLimit)
     throw new GraphQLError(`Max file size ${imageSizeLimit / 1024}`, { extensions: { code: 'BAD_REQUEST' } })
@@ -39,5 +39,5 @@ export const saveImage: TSaveImage = async ({ fileName, file, type, dirName }) =
     if (err) throw err;
     res.quality(80).write(writeDir);
   });
-  return { path: path.join("/uploads/", filePath, fileBase), dirName: dirName || `/..${path.join("/uploads/ubbpress", filePath)}` }
+  return { path: path.join(filePath, fileBase), dirName: dirName || `/..${filePath}` }
 }

@@ -46,10 +46,10 @@ async function main() {
 
   const bookData: Prisma.BookCreateInput[] = backupBookImgCat.data.books.map((book) => {
     const cover = book.Images.find((val) => val.type === "COVER")
-    let imageDirectory = `/../uploads/ubbpress/images/books/${book.title}`
+    let imageDirectory = `/../uploads/images/books/${book.title}`
     if (cover) {
       const filename = cover.publicId.split("/")[2]
-      imageDirectory = `/../uploads/ubbpress/images/books/${filename}`
+      imageDirectory = `/../uploads/images/books/${filename}`
     }
     return {
       ...book,
