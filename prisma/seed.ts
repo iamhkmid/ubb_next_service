@@ -77,12 +77,15 @@ async function main() {
 
 
   const footerData: Prisma.FooterInfoCreateInput[] = backupFooter.data.footerInfo.map((footer) => {
-    const { publicId } = footer
-    const filename = publicId!.split("/")[2]
-    const image = path.format({ dir: "/uploads/images/contact", base: `${filename}.jpg` })
+    const { publicId, Group, image: img, ...rest } = footer
+    let image = null
+    if (publicId) {
+      const filename = publicId!.split("/")[2]
+      image = path.format({ dir: "/uploads/images/contact", base: `${filename}.svg` })
+    }
     return {
-      ...footer,
-      image,
+      ...rest,
+      ...(image ? { image } : {}),
       Group: { connectOrCreate: { where: { id: footer.Group.id }, create: footer.Group } },
     }
   })

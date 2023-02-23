@@ -3,6 +3,7 @@ import { BookResolvers, MutationResolvers, QueryResolvers } from "../../../types
 import { saveImage, sortBookBy, stringPath } from "./utils";
 import fs from "fs"
 import path from "path"
+import mime from "mime";
 
 export const Query: QueryResolvers = {
   books: async (_, { options }, { db }) => {
@@ -41,6 +42,9 @@ export const Query: QueryResolvers = {
 
 export const Mutation: MutationResolvers = {
   addBook: async (_, { data, cover }, { db }) => {
+
+    const filemime = mime.getType(cover);
+    console.log(filemime)
     const { dirName, path: pathname } = await saveImage({ fileName: stringPath(data.title), file: cover, type: "cover" })
       .catch(() => {
         throw new GraphQLError("Failed upload file", { extensions: { code: 'INTERNAL_SERVER_ERROR' } })
@@ -65,6 +69,7 @@ export const Mutation: MutationResolvers = {
         }
       },
     }).catch((error) => {
+      console.log(error)
       if (fs.existsSync(path.join(process.cwd(), dirName)))
         fs.rmSync(path.join(process.cwd(), dirName), { recursive: true })
       throw new GraphQLError("Database error", { extensions: { code: 'INTERNAL_SERVER_ERROR' } })
@@ -92,7 +97,7 @@ export const Mutation: MutationResolvers = {
       throw new GraphQLError("Database error", { extensions: { code: 'INTERNAL_SERVER_ERROR' } })
     })
     if (cover) {
-      const { path } = await saveImage({ fileName: stringPath(updateBook.title), file: cover, type: "cover", dirName: updateBook.imageDirectory })
+      const { path } = await saveImage({ fileName: stringPath(updateBook.title), file: cover, type: "cover", dirName: updateBook.imageDirectory! })
         .catch(() => {
           throw new GraphQLError("Failed upload file", { extensions: { code: 'INTERNAL_SERVER_ERROR' } })
         })
@@ -106,8 +111,8 @@ export const Mutation: MutationResolvers = {
   },
   deleteBook: async (_, { bookId }, { db }) => {
     const deleteBook = await db.book.delete({ where: { id: bookId } })
-    if (fs.existsSync(path.join(process.cwd(), deleteBook.imageDirectory)))
-      fs.rmSync(path.join(process.cwd(), deleteBook.imageDirectory), { recursive: true })
+    if (fs.existsSync(path.join(process.cwd(), deleteBook.imageDirectory!)))
+      fs.rmSync(path.join(process.cwd(), deleteBook.imageDirectory!), { recursive: true })
     return deleteBook
   },
   addBookCategory: async (_, { data }, { db }) => {

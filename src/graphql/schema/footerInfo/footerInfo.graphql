@@ -17,7 +17,6 @@ type FooterInfo {
   label: String
   value: String
   image: String
-  publicId: String
   Group: FooterInfoGroup
   createdAt: Date
   updatedAt: Date

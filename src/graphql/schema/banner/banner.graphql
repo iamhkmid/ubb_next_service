@@ -10,7 +10,6 @@ type Mutation {
 type Banner {
   id: ID
   image: String
-  publicId: String
   createdAt: Date
   updatedAt: Date
 }

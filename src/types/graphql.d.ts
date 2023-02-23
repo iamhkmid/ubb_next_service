@@ -21,7 +21,6 @@ export type Banner = {
   createdAt?: Maybe<Scalars['Date']>;
   id?: Maybe<Scalars['ID']>;
   image?: Maybe<Scalars['String']>;
-  publicId?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['Date']>;
 };
 
@@ -33,6 +32,7 @@ export type Book = {
   createdAt?: Maybe<Scalars['Date']>;
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['ID']>;
+  imageDirectory?: Maybe<Scalars['String']>;
   isbn?: Maybe<Scalars['String']>;
   numberOfPages?: Maybe<Scalars['Int']>;
   price?: Maybe<Scalars['Int']>;
@@ -57,7 +57,6 @@ export type BookCategory = {
 export type BookImage = {
   __typename?: 'BookImage';
   createdAt?: Maybe<Scalars['Date']>;
-  dirName?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['String']>;
   type?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['Date']>;
@@ -75,7 +74,6 @@ export type FooterInfo = {
   id?: Maybe<Scalars['ID']>;
   image?: Maybe<Scalars['String']>;
   label?: Maybe<Scalars['String']>;
-  publicId?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['Date']>;
   value?: Maybe<Scalars['String']>;
 };
@@ -409,7 +407,6 @@ export type BannerResolvers<ContextType = TGraphqlCtx, ParentType extends Resolv
   createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   image?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  publicId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -421,6 +418,7 @@ export type BookResolvers<ContextType = TGraphqlCtx, ParentType extends Resolver
   createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  imageDirectory?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   isbn?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   numberOfPages?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   price?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
@@ -445,7 +443,6 @@ export type BookCategoryResolvers<ContextType = TGraphqlCtx, ParentType extends 
 
 export type BookImageResolvers<ContextType = TGraphqlCtx, ParentType extends ResolversParentTypes['BookImage'] = ResolversParentTypes['BookImage']> = {
   createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
-  dirName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   type?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
@@ -463,7 +460,6 @@ export type FooterInfoResolvers<ContextType = TGraphqlCtx, ParentType extends Re
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   image?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   label?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  publicId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   value?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
