@@ -1,6 +1,6 @@
 import { Category, Prisma, PrismaClient } from '@prisma/client'
 import bcrypt from "bcrypt"
-import { stringPath } from '../src/graphql/schema/book/utils';
+import { stringPath } from '../src/libs/utils';
 import { backupBanner, backupBookImgCat, backupFooter } from './backup';
 import path from "path"
 import https from "https"
@@ -57,11 +57,11 @@ async function main() {
       Images: {
         connectOrCreate: book.Images.map((img) => {
           const { id, createdAt, updatedAt, type, publicId } = img
-          const filename = publicId.split("/")[2]
-          const dirName = `/uploads/images/books/${filename}`
-          const pathName = path.format({ dir: dirName, base: `${filename}.jpg` })
-
-          return { where: { id: img.id }, create: { id, createdAt, updatedAt, type, path: pathName } }
+          const name = publicId.split("/")[2]
+          const dirName = `/uploads/images/books/${name}`
+          const fileName = `${name}.jpg`
+          const url = path.join(dirName, fileName).replace(/\\/g, '/')
+          return { where: { id: img.id }, create: { id, createdAt, updatedAt, type, url, fileName } }
         })
       },
       Categories: { connectOrCreate: book.Categories.map((cat) => ({ where: { id: cat.id }, create: cat })) }
@@ -70,22 +70,25 @@ async function main() {
 
   const bannerData: Prisma.BannerCreateInput[] = backupBanner.data.banners.map((banner) => {
     const { id, publicId, createdAt, updatedAt } = banner
-    const filename = publicId.split("/")[2]
-    const image = path.format({ dir: "/uploads/images/banner", base: `${filename}.jpg` })
-    return { id, createdAt, updatedAt, image }
+    const name = publicId.split("/")[2]
+    const fileName = `${name}.jpg`
+    const url = path.join("/uploads/images/banners", fileName).replace(/\\/g, '/')
+    return { id, createdAt, updatedAt, url, fileName }
   })
 
 
   const footerData: Prisma.FooterInfoCreateInput[] = backupFooter.data.footerInfo.map((footer) => {
     const { publicId, Group, image: img, ...rest } = footer
-    let image = null
+    let url = null
+    let fileName = null
     if (publicId) {
-      const filename = publicId!.split("/")[2]
-      image = path.format({ dir: "/uploads/images/contact", base: `${filename}.svg` })
+      const name = publicId!.split("/")[2]
+      fileName = `${name}.svg`
+      url = path.join("/uploads/images/contacts", fileName).replace(/\\/g, '/')
     }
     return {
       ...rest,
-      ...(image ? { image } : {}),
+      ...(url ? { url, fileName } : {}),
       Group: { connectOrCreate: { where: { id: footer.Group.id }, create: footer.Group } },
     }
   })

@@ -1,9 +1,8 @@
 import { GraphQLError } from "graphql";
 import { BookResolvers, MutationResolvers, QueryResolvers } from "../../../types/graphql";
-import { saveImage, sortBookBy, stringPath } from "./utils";
+import { saveImage, sortBookBy, stringPath } from "../../../libs/utils";
 import fs from "fs"
 import path from "path"
-import mime from "mime";
 
 export const Query: QueryResolvers = {
   books: async (_, { options }, { db }) => {
@@ -42,7 +41,7 @@ export const Query: QueryResolvers = {
 
 export const Mutation: MutationResolvers = {
   addBook: async (_, { data, cover }, { db }) => {
-    const { dirName, path: pathname } = await saveImage({ fileName: stringPath(data.title), file: cover, type: "cover" })
+    const { dirName, fileName, url } = await saveImage({ action: "C", name: `cover-${stringPath(data.title)}`, file: cover, folder: "/images/books" })
       .catch(() => {
         throw new GraphQLError("Failed upload file", { extensions: { code: 'INTERNAL_SERVER_ERROR' } })
       })
@@ -62,10 +61,10 @@ export const Mutation: MutationResolvers = {
         slug: stringPath(`${data.title}-${data.authorName}`),
         imageDirectory: dirName,
         Images: {
-          create: [{ path: pathname, type: "COVER" }]
+          create: [{ fileName, url: url!, type: "COVER" }]
         }
       },
-    }).catch((error) => {
+    }).catch(() => {
       if (fs.existsSync(path.join(process.cwd(), dirName)))
         fs.rmSync(path.join(process.cwd(), dirName), { recursive: true })
       throw new GraphQLError("Database error", { extensions: { code: 'INTERNAL_SERVER_ERROR' } })
@@ -93,16 +92,24 @@ export const Mutation: MutationResolvers = {
       throw new GraphQLError("Database error", { extensions: { code: 'INTERNAL_SERVER_ERROR' } })
     })
     const { Images, ...rest } = updateBook
+    const coverData = Images?.find((val) => val.type === "COVER")
     if (cover) {
-      const { path } = await saveImage({ fileName: stringPath(updateBook.title), file: cover, type: "cover", dirName: updateBook.imageDirectory! })
-        .catch(() => {
-          throw new GraphQLError("Failed upload file", { extensions: { code: 'INTERNAL_SERVER_ERROR' } })
-        })
-      await db.bookImage.upsert({
-        where: { id: Images?.find((val) => val.type === "COVER")?.id || undefined },
-        create: { path, type: "COVER", Book: { connect: { id: updateBook.id } } },
-        update: { path }
-      })
+      try {
+        if (!!updateBook.imageDirectory && !!coverData?.fileName && !!coverData.fileName) {
+          await saveImage({ action: "U", fileName: coverData.fileName, file: cover, dirName: updateBook.imageDirectory })
+        } else {
+          const { dirName, fileName, url } = await saveImage({ action: "C", name: `cover-${stringPath(updateBook.title)}`, file: cover, folder: "/images/books" })
+          await db.book.update({
+            where: { id: updateBook.id },
+            data: {
+              imageDirectory: dirName,
+              Images: { create: { fileName, type: "COVER", url: url! } }
+            }
+          })
+        }
+      } catch {
+        throw new GraphQLError("Failed upload file", { extensions: { code: 'INTERNAL_SERVER_ERROR' } })
+      }
     }
     return rest
   },
@@ -135,8 +142,8 @@ export const Book: BookResolvers = {
   Images: async ({ id }, __, { db }) => {
     const images = await db.bookImage.findMany({ where: { bookId: id! } })
     return images.map((img) => {
-      const { path, ...rest } = img
-      return { ...rest, url: `${process.env.BASE_URL}${path}`.replace(/\\/g, '/') }
+      const { url, ...rest } = img
+      return { ...rest, url: `${process.env.BASE_URL}${url}` }
     })
   },
   Categories: async ({ id }, __, { db }) => await db.category.findMany({ where: { Books: { some: { id: id! } } } }),

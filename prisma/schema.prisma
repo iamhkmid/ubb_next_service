@@ -52,7 +52,8 @@ model Book {
 
 model BookImage {
   id        String   @id @default(cuid())
-  path      String
+  fileName  String
+  url       String
   type      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -70,7 +71,8 @@ model Category {
 
 model Banner {
   id        String   @id @default(cuid())
-  image     String
+  fileName  String
+  url       String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -79,7 +81,8 @@ model FooterInfo {
   id        String           @id @default(cuid())
   label     String           @unique
   value     String
-  image     String?
+  fileName  String?
+  url       String?
   createdAt DateTime         @default(now())
   updatedAt DateTime         @updatedAt
   Group     FooterInfoGroup? @relation(fields: [groupId], references: [id], onDelete: Cascade)

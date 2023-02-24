@@ -1,15 +1,15 @@
 import { GraphQLError } from "graphql";
 import cloudinary from "../../../libs/cloudinary";
 import { MutationResolvers, QueryResolvers } from "../../../types/graphql";
-import { saveBanner, stringPath } from "./utils";
 import fs from "fs"
 import path from "path"
+import { saveImage, stringPath } from "../../../libs/utils";
 
 export const Query: QueryResolvers = {
   banners: async (_, __, { db }) => {
-    return await (await db.banner.findMany()).map((banner) => {
-      const { image, ...rest } = banner
-      return { ...rest, imageUrl: `${process.env.BASE_URL}${banner.image}`.replace(/\\/g, '/') }
+    return (await db.banner.findMany()).map((banner) => {
+      const { url, ...rest } = banner
+      return { ...rest, imageUrl: `${process.env.BASE_URL}${url}` }
     })
   }
 };
@@ -17,21 +17,19 @@ export const Query: QueryResolvers = {
 export const Mutation: MutationResolvers = {
   addBanner: async (_, { imageBase64 }, { db }) => {
 
-    const { path } = await saveBanner({ fileName: stringPath((new Date()).getTime().toString()), file: imageBase64 })
+    const { url, fileName } = await saveImage({ action: "C", name: `banner`, file: imageBase64, folder: "/images/banners" })
       .catch(() => {
         throw new GraphQLError("Failed upload file", { extensions: { code: 'INTERNAL_SERVER_ERROR' } })
       })
 
     const banner = await db.banner.create({
-      data: {
-        image: path,
-      }
+      data: { url: url!, fileName }
     })
-    return { ...banner, imageUrl: `${process.env.BASE_URL}${banner.image}`.replace(/\\/g, '/') }
+    return { ...banner, imageUrl: `${process.env.BASE_URL}${banner.url}` }
   },
   deleteBanner: async (_, { bannerId }, { db }) => {
     const deleteBanner = await db.banner.delete({ where: { id: bannerId } })
-    const fileDir = path.join(process.cwd(), "/../", deleteBanner.image)
+    const fileDir = path.join(process.cwd(), "/../uploads/images/banners", deleteBanner.fileName)
     if (deleteBanner && fs.existsSync(fileDir)) {
       fs.unlinkSync(fileDir)
     }
