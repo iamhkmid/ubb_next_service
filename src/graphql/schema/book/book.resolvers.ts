@@ -95,18 +95,13 @@ export const Mutation: MutationResolvers = {
     const coverData = Images?.find((val) => val.type === "COVER")
     if (cover) {
       try {
-        if (!!updateBook.imageDirectory && !!coverData?.fileName && !!coverData.fileName) {
-          await saveImage({ action: "U", fileName: coverData.fileName, file: cover, dirName: updateBook.imageDirectory })
-        } else {
-          const { dirName, fileName, url } = await saveImage({ action: "C", name: `cover-${stringPath(updateBook.title)}`, file: cover, folder: "/images/books" })
-          await db.book.update({
-            where: { id: updateBook.id },
-            data: {
-              imageDirectory: dirName,
-              Images: { create: { fileName, type: "COVER", url: url! } }
-            }
-          })
-        }
+        const isUpdate = !!coverData?.fileName && !!coverData.url
+        const { fileName, url } = await saveImage({ action: isUpdate ? "U" : "C", name: `cover-${stringPath(updateBook.title)}`, fileName: coverData?.fileName!, file: cover, dirName: updateBook.imageDirectory!, folder: "/images/books" })
+        await db.bookImage.upsert({
+          where: { id: coverData?.id },
+          update: { fileName, url },
+          create: { fileName, type: "COVER", url, Book: { connect: { id: updateBook.id } } }
+        })
       } catch {
         throw new GraphQLError("Failed upload file", { extensions: { code: 'INTERNAL_SERVER_ERROR' } })
       }

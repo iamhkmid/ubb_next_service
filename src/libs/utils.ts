@@ -16,8 +16,8 @@ export const sortBookBy: TSortBookBy = (sortBy) => {
   }
 }
 
-type TSaveImageProps = { file: string; } & ({ name: string; action: "C"; folder: string; } | { fileName: string; dirName: string; action: "U" })
-type TSaveImage = (p: TSaveImageProps) => Promise<{ fileName: string; url?: string; dirName: string; }>
+type TSaveImageProps = { file: string; name: string; folder: string; } & ({ action: "C"; } | { fileName: string; dirName: string; action: "U" })
+type TSaveImage = (p: TSaveImageProps) => Promise<{ fileName: string; url: string; dirName: string; }>
 
 export const saveImage: TSaveImage = async (props) => {
   const { file } = props
@@ -48,9 +48,17 @@ export const saveImage: TSaveImage = async (props) => {
       return { fileName, url: path.join(folderName, fileName).replace(/\\/g, '/'), dirName: `/..${folderName}`.replace(/\\/g, '/') }
     }
     case "U": {
-      const { fileName, dirName } = props
+      const { fileName: oldFileName, dirName, name, folder } = props
+      const oldFilePath = path.join(process.cwd(), "/uploads/", folder, oldFileName)
+      if (fs.existsSync(oldFilePath)) fs.unlinkSync(oldFilePath);
+      const fileExt = ext === "jpeg" ? "jpg" : ext
+      const fileName = `${new Date().getTime()}-${name}.${fileExt}`
       writeDir = path.join(process.cwd(), dirName, fileName)
-      return { fileName, dirName: props.dirName }
+      Jimp.read(bufferFile, (err, res) => {
+        if (err) throw err;
+        res.quality(80).write(writeDir!);
+      });
+      return { fileName, url: path.join(dirName, fileName).replace(/\\/g, '/'), dirName: props.dirName, }
     }
     default: throw new Error("Invalid action");
   }
