@@ -64,7 +64,7 @@ const migrateBanner = async () => {
 
     const { image, publicId } = u
     const filename = publicId.split("/")[2]
-    const dirName = `/uploads/images/banner`
+    const dirName = `/uploads/images/banners`
     const ext = "jpg"
     const pathName = path.format({ dir: dirName, base: `${filename}.${ext}` })
     await makeDir(dirName)
@@ -99,7 +99,7 @@ const migrateFooter = async () => {
     const { image, publicId } = u
     if (image) {
       const filename = publicId!.split("/")[2]
-      const dirName = `/uploads/images/contact`
+      const dirName = `/uploads/images/contacts`
       const ext = "svg"
       const pathName = path.format({ dir: dirName, base: `${filename}.${ext}` })
       await makeDir(dirName)
