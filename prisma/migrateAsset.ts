@@ -99,7 +99,7 @@ const migrateFooter = async () => {
     const { image, publicId } = u
     if (image) {
       const filename = publicId!.split("/")[2]
-      const dirName = `/uploads/images/footer`
+      const dirName = `/uploads/images/contact`
       const ext = "svg"
       const pathName = path.format({ dir: dirName, base: `${filename}.${ext}` })
       await makeDir(dirName)
