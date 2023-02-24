@@ -17,7 +17,7 @@ const graphqlServer: TGraphqlServer = async ({ app, httpServer }) => {
 
   await server.start();
 
-  const context: TGraphqlCtxFunc = async ({ req, res }) => ({ req, res, db: prisma, cloudinary: cloudinary() });
+  const context: TGraphqlCtxFunc = async ({ req, res }) => ({ req, res, db: prisma });
 
   app.use('/graphql',
     cors<cors.CorsRequest>({ origin: "*", exposedHeaders: ['Authorization'], allowedHeaders: ['Authorization'] }),
